@@ -18,11 +18,20 @@ void		init_sdl(t_sdl *out_sdl)
 
 void		init_scene(t_scene *out_scene)
 {
-	out_scene->objects = 3;
-	out_scene->spheres = malloc(sizeof(*out_scene->spheres) * (out_scene->objects));
-	out_scene->spheres[0] = (t_sphere){(t_vector){0, -1, 3}, 1, COL_RED};
-	out_scene->spheres[1] = (t_sphere){(t_vector){2, 0, 4}, 1, COL_BLUE};
-	out_scene->spheres[2] = (t_sphere){(t_vector){-2, 0, 4}, 1, COL_GREEN};
+	out_scene->spheres_nbr = 4;
+	if (!(out_scene->spheres = malloc(sizeof(*out_scene->spheres) * (out_scene->spheres_nbr))))
+		raise_error(ERR_MALLOC);
+	out_scene->spheres[0] = (t_sphere){{0, -1, 3}, 1, COL_RED};
+	out_scene->spheres[1] = (t_sphere){{2, 0, 4}, 1, COL_BLUE};
+	out_scene->spheres[2] = (t_sphere){{-2, 0, 4}, 1, COL_GREEN};
+	out_scene->spheres[3] = (t_sphere){{0, -5001, 0}, 5000, COL_YELLOW};
+
+	out_scene->lights_nbr = 3;
+	if (!(out_scene->lights = malloc(sizeof(*out_scene->lights) * out_scene->spheres_nbr)))
+		raise_error(ERR_MALLOC);
+	out_scene->lights[0] = (t_light){AMBIENT, 0.2, {}, {}};
+	out_scene->lights[1] = (t_light){POINT, 0.6, {2, 1, 0}, {}};
+	out_scene->lights[2] = (t_light){DIRECTIONAL, 0.2, {}, {1, 4, 4}};
 }
 
 void		init_rtv1(t_rtv1 *out_rtv1)

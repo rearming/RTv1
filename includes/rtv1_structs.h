@@ -61,10 +61,20 @@ typedef struct			s_sphere
 	int					color;
 }						t_sphere;
 
+typedef struct			s_light
+{
+	int					type;
+	double				intensity;
+	t_vector			pos;
+	t_vector			dir;
+}						t_light;
+
 typedef struct			s_scene
 {
 	t_sphere			*spheres;
-	int					objects;
+	int					spheres_nbr;
+	t_light				*lights;
+	int					lights_nbr;
 }						t_scene;
 
 typedef struct SDL_Window 	SDL_Window;

@@ -5,7 +5,7 @@ t_point		get_videomem_coord_system_point(t_point raw_point)
 	t_point		result;
 
 	result.x = WIN_WIDTH / 2 + raw_point.x;
-	result.y = WIN_HEIGHT / 2 + raw_point.y;
+	result.y = WIN_HEIGHT / 2 - raw_point.y;
 	result.color = raw_point.color;
 	return (result);
 }
