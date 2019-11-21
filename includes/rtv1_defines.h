@@ -5,6 +5,8 @@
 # define TRUE 1
 # define FALSE 0
 
+# define OPENCL_KERNEL_FILE_PATH "./sources/open_cl/raytracer.cl"
+
 # define WIN_TITLE "Dota 4"
 
 # define WIN_WIDTH 1000
@@ -22,6 +24,15 @@
 # define COL_GREY 0x3A3635
 
 # define COL_BG COL_GREY
+
+/*
+**	Object types
+*/
+
+# define SPHERE 10
+# define CONE 11
+# define PLANE 12
+# define CYLINDER 13
 
 /*
 ** Light types

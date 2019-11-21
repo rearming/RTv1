@@ -11,8 +11,6 @@ endif()
 
 # <----RTv1 compile---->
 
-find_library(OPENCL OpenCL)
-
 include_directories(
         libft/includes
         includes
@@ -30,8 +28,10 @@ set(sources
         sources/SDL_utils/sdl_exit.c
         sources/render/ray_sphere_intersect.c
         sources/math_utils/vector_math.c
-        includes/math_utils.h
-        sources/math_utils/math_utils.c sources/render/render.c)
+        sources/math_utils/math_utils.c
+        sources/render/render.c
+        sources/open_cl/cl_gnl.c
+        sources/open_cl/cl_init.c)
 
 link_directories(
         libft
@@ -47,7 +47,7 @@ target_link_libraries(RTv1
         "ft"
         "ftprintf"
         "-F ${PROJECT_SOURCE_DIR}/SDL2_libs -framework SDL2"
-        ${OpenCL})
+        "-framework OpenCL")
 
 # <----TESTING----> #
 

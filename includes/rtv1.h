@@ -1,17 +1,22 @@
 #ifndef RTV1_H
 # define RTV1_H
 
-#include <stdio.h>
-#include <math.h>
-#include "SDL.h"
+# include <stdio.h>
+# include <math.h>
+# include <SDL.h>
 
-#include "libft.h"
-#include "rtv1_structs.h"
-#include "rtv1_defines.h"
-#include "rtv1_key_codes.h"
-#include "rtv1_errors.h"
+# ifdef __APPLE__
+#  include <OpenCL/opencl.h>
+# else
+#  include <CL/cl.h>
+# endif
 
-#include "math_utils.h"
+# include "libft.h"
+# include "rtv1_structs.h"
+# include "rtv1_defines.h"
+# include "rtv1_errors.h"
+
+# include "math_utils.h"
 
 /*
 ** Init
@@ -30,14 +35,14 @@ int			cross_close(void *param);
 **	Render
 */
 
-void		render(t_rtv1 *rtv1);
+void render(t_rtv1 *rtv1, void (*render_func)(t_rtv1 *));
 
 /*
 ** Raytracing objects
 */
 
 void		ray_sphere_intersect(t_rtv1 *rtv1, t_vector ray_dir,
-		t_sphere sphere, double *out_x1, double *out_x2);
+		const t_sphere *sphere, float *out_x1, float *out_x2);
 
 /*
 ** Render utils
@@ -49,12 +54,20 @@ t_point		get_videomem_coord_system_point(t_point raw_point);
 t_vector	canvas_to_viewport(t_rtv1 *rtv1, t_vector canvas_point);
 
 /*
-**	SDL utils
+**	SDL
 */
 
 void		sdl_clean(t_rtv1 *rtv1);
 void		sdl_exit(t_rtv1 *rtv1);
 void		sdl_loop(t_rtv1 *rtv1);
+
+/*
+** OpenCL
+*/
+
+char		*cl_gnl(int fd);
+void		cl_init(t_rtv1 *rtv1);
+void		cl_render(t_rtv1 *rtv1);
 
 /*
 **	Error management

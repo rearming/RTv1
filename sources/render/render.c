@@ -1,6 +1,6 @@
 #include "rtv1.h"
 
-int					change_color_intensity(int color, double intensity)
+int					change_color_intensity(int color, float intensity)
 {
 	unsigned char	a;
 	unsigned char	r;
@@ -18,22 +18,29 @@ int					change_color_intensity(int color, double intensity)
 	return (a << 24 | r << 16 | g << 8 | b);
 }
 
-double				compute_lighting(
+t_vector			compute_normal(t_vector point, t_object intersect_obj)
+{
+	if (intersect_obj.type == SPHERE)
+		return (vec_normalize(vec_subtract(point, ((t_sphere*)intersect_obj.obj)->center)));
+	return ((t_vector){0, 0, 0});
+}
+
+float				compute_lighting(
 		t_rtv1 *rtv1,
 		t_vector ray_dir,
-		double closest_intersect,
-		t_vector closest_sphere_center //todo это будет generic функция, считающая нормаль к любой поверхности?
+		float closest_intersect,
+		t_object intersect_obj//todo это будет generic функция, считающая нормаль к любой поверхности?
 		)
 {
 	t_vector	point;
 	t_vector	normal;
 	t_vector	light;
-	double		normal_dot_light;
-	double		intensity;
+	float		normal_dot_light;
+	float		intensity;
 	int			i;
 
 	point = vec_add(rtv1->camera.pos, vec_mult_by_scalar(ray_dir, closest_intersect));
-	normal = vec_normalize(vec_subtract(point, closest_sphere_center));
+	normal = compute_normal(point, intersect_obj);
 	intensity = 0.0f;
 	i = 0;
 	while (i < rtv1->scene.lights_nbr)
@@ -57,43 +64,56 @@ double				compute_lighting(
 	return (intensity);
 }
 
+void find_intersection(
+		t_rtv1 *rtv1,
+		t_vector ray_dir,
+		t_object object,
+		float *out_intersect1,
+		float *out_intersect2)
+{
+	*out_intersect1 = INFINITY;
+	*out_intersect2 = INFINITY;
+	if (object.type == SPHERE)
+		ray_sphere_intersect(rtv1, ray_dir, (t_sphere*)object.obj, out_intersect1, out_intersect2);
+}
+
 int					trace_ray(
 		t_rtv1 *rtv1,
 		t_vector ray_dir,
-		double ray_min,
-		double ray_max)
+		float ray_min,
+		float ray_max)
 {
-	double		closest_intersect;
-	int			i;
-	double		intersect_1;
-	double		intersect_2;
+	float		closest_intersect;
+	float		intersect_1;
+	float		intersect_2;
 	int			result_color;
-	int			closest_sphere_i;
+	int			closest_obj_i;
+	int			i;
 
 	result_color = COL_BG;
 	closest_intersect = INFINITY;
-	closest_sphere_i = NOT_SET;
+	closest_obj_i = NOT_SET;
 	i = 0;
-	while (i < rtv1->scene.spheres_nbr)
+	while (i < rtv1->scene.obj_nbr)
 	{
-		ray_sphere_intersect(rtv1, ray_dir, rtv1->scene.spheres[i],
-				&intersect_1, &intersect_2);
+		find_intersection(rtv1, ray_dir, rtv1->scene.objects[i], &intersect_1, &intersect_2);
 		if (in_range_inclusive(intersect_1, ray_min, ray_max) && intersect_1 < closest_intersect)
 		{
 			closest_intersect = intersect_1;
-			result_color = rtv1->scene.spheres[i].color;
-			closest_sphere_i = i;
+			result_color = rtv1->scene.objects[i].color;
+			closest_obj_i = i;
 		}
 		if (in_range_inclusive(intersect_2, ray_min, ray_max) && intersect_2 < closest_intersect)
 		{
 			closest_intersect = intersect_2;
-			result_color = rtv1->scene.spheres[i].color;
-			closest_sphere_i = i;
+			result_color = rtv1->scene.objects[i].color;
+			closest_obj_i = i;
 		}
 		i++;
 	}
-	if (closest_sphere_i != NOT_SET)
-		return (change_color_intensity(result_color, compute_lighting(rtv1, ray_dir, closest_intersect, rtv1->scene.spheres[closest_sphere_i].center)));
+	if (closest_obj_i != NOT_SET)
+		return (change_color_intensity(result_color,
+				compute_lighting(rtv1, ray_dir, closest_intersect, rtv1->scene.objects[closest_obj_i])));
 	return (result_color);
 }
 
@@ -108,7 +128,7 @@ void		render_scene(t_rtv1 *rtv1)
 		result.y = -WIN_HEIGHT / 2;
 		while (result.y < WIN_HEIGHT / 2)
 		{
-			ray_dir = canvas_to_viewport(rtv1, (t_vector){result.x, result.y, 0});
+			ray_dir = canvas_to_viewport(rtv1, (t_vector){(float)result.x, (float)result.y, 0});
 			result.color = trace_ray(rtv1, ray_dir, rtv1->camera.viewport_distance, INFINITY);
 			image_put_pixel(rtv1->img_data, get_videomem_coord_system_point(result));
 			result.y++;
@@ -118,11 +138,11 @@ void		render_scene(t_rtv1 *rtv1)
 	ft_printf("Render done!\n");
 }
 
-void		render(t_rtv1 *rtv1)
+void		render(t_rtv1 *rtv1, void (*render_func)(t_rtv1 *))
 {
 	SDL_LockTexture(rtv1->sdl.texture, 0,
-					(void**)&rtv1->img_data, &rtv1->sdl.pitch);
-	render_scene(rtv1);
+			(void**)&rtv1->img_data, &rtv1->sdl.pitch);
+	render_func(rtv1);
 	SDL_UnlockTexture(rtv1->sdl.texture);
 	SDL_SetRenderTarget(rtv1->sdl.rend, rtv1->sdl.texture);
 	SDL_RenderCopy(rtv1->sdl.rend, rtv1->sdl.texture, NULL, NULL);

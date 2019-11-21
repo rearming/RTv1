@@ -16,18 +16,31 @@ void		init_sdl(t_sdl *out_sdl)
 		raise_error(ERR_SDL_TEXTURE_CREATE);
 }
 
+t_object	new_sphere(t_vector center, float radius, int color)
+{
+	t_object	sphere;
+
+	sphere.type = SPHERE;
+	if (!(sphere.obj = malloc(sizeof(t_sphere))))
+		raise_error(ERR_MALLOC);
+	((t_sphere*)sphere.obj)->center = center;
+	((t_sphere*)sphere.obj)->raduis = radius;
+	sphere.color = color;
+	return (sphere);
+}
+
 void		init_scene(t_scene *out_scene)
 {
-	out_scene->spheres_nbr = 4;
-	if (!(out_scene->spheres = malloc(sizeof(*out_scene->spheres) * (out_scene->spheres_nbr))))
+	out_scene->obj_nbr = 4;
+	if (!(out_scene->objects = malloc(sizeof(t_object) * (out_scene->obj_nbr))))
 		raise_error(ERR_MALLOC);
-	out_scene->spheres[0] = (t_sphere){{0, -1, 3}, 1, COL_RED};
-	out_scene->spheres[1] = (t_sphere){{2, 0, 4}, 1, COL_BLUE};
-	out_scene->spheres[2] = (t_sphere){{-2, 0, 4}, 1, COL_GREEN};
-	out_scene->spheres[3] = (t_sphere){{0, -5001, 0}, 5000, COL_YELLOW};
+	out_scene->objects[0] = new_sphere((t_vector){0, -1, 3}, 1, COL_RED);
+	out_scene->objects[1] = new_sphere((t_vector){2, 0, 4}, 1, COL_BLUE);
+	out_scene->objects[2] = new_sphere((t_vector){-2, 0, 4}, 1, COL_GREEN);
+	out_scene->objects[3] = new_sphere((t_vector){0, -5001, 0}, 5000, COL_YELLOW);
 
 	out_scene->lights_nbr = 3;
-	if (!(out_scene->lights = malloc(sizeof(*out_scene->lights) * out_scene->spheres_nbr)))
+	if (!(out_scene->lights = malloc(sizeof(t_light) * out_scene->obj_nbr)))
 		raise_error(ERR_MALLOC);
 	out_scene->lights[0] = (t_light){AMBIENT, 0.2, {}, {}};
 	out_scene->lights[1] = (t_light){POINT, 0.6, {2, 1, 0}, {}};
