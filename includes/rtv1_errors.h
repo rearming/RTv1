@@ -14,10 +14,12 @@
 # define RTV1_ERRORS_H
 
 # define ERR_MALLOC 7
-# define ERR_MLX_INIT 42
-# define ERR_MLX_WIN 43
-# define ERR_MLX_IMG 44
-# define ERR_MLX_IMG_DATA 45
+
+# define ERR_SDL_INIT 109
+# define ERR_SDL_WIN 110
+# define ERR_SDL_RENDER 111
+# define ERR_SDL_TEXTURE_CREATE 112
+
 # define ERR_USAGE 46
 # define ERR_OPENCL 47
 # define ERR_OPENCL_CLEAN 48

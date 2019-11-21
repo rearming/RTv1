@@ -1,6 +1,8 @@
 #ifndef RTV1_STRUCTS_H
 # define RTV1_STRUCTS_H
 
+#include "rtv1_defines.h"
+
 typedef struct			s_quadratic_eq
 {
 	double				a;
@@ -65,11 +67,21 @@ typedef struct			s_scene
 	int					objects;
 }						t_scene;
 
+typedef struct SDL_Window 	SDL_Window;
+typedef struct SDL_Renderer	SDL_Renderer;
+typedef struct SDL_Texture	SDL_Texture;
+
+typedef struct			s_sdl
+{
+	SDL_Window			*win;
+	SDL_Renderer		*rend;
+	SDL_Texture			*texture;
+	int					pitch;
+}						t_sdl;
+
 typedef struct			s_rtv1
 {
-	void				*mlx_ptr;
-	void				*win_ptr;
-	void				*mlx_img;
+	t_sdl				sdl;
 	int					*img_data;
 	t_camera			camera;
 	t_scene				scene;

@@ -2,39 +2,64 @@
 # define RTV1_H
 
 #include <stdio.h>
-#include <mlx.h>
+#include <math.h>
+#include "SDL.h"
 
 #include "libft.h"
 #include "rtv1_structs.h"
 #include "rtv1_defines.h"
 #include "rtv1_key_codes.h"
 #include "rtv1_errors.h"
-#include "math.h"
+
+#include "math_utils.h"
 
 /*
 ** Init
 */
 
-void	init_mlx(t_rtv1 *out_rtv1);
+void		init_rtv1(t_rtv1 *out_rtv1);
 
 /*
 ** Hooks
 */
 
-int		key_press(int keycode, void *param);
-int		cross_close(void *param);
+int			key_press(int keycode, void *param);
+int			cross_close(void *param);
+
+/*
+**	Render
+*/
+
+void		render(t_rtv1 *rtv1);
+
+/*
+** Raytracing objects
+*/
+
+void		ray_sphere_intersect(t_rtv1 *rtv1, t_vector ray_dir,
+		t_sphere sphere, double *out_x1, double *out_x2);
 
 /*
 ** Render utils
 */
 
-void	image_put_pixel(int *mlx_img, t_point point);
-void	bresen_line(int *img_data, t_point start, t_point end);
+void		image_put_pixel(int *img_data, t_point point);
+void		bresen_line(int *img_data, t_point start, t_point end);
+t_point		get_videomem_coord_system_point(t_point raw_point);
+t_vector	canvas_to_viewport(t_rtv1 *rtv1, t_vector canvas_point);
+
+/*
+**	SDL utils
+*/
+
+void		sdl_clean(t_rtv1 *rtv1);
+void		sdl_exit(t_rtv1 *rtv1);
+void		sdl_loop(t_rtv1 *rtv1);
 
 /*
 **	Error management
 */
 
-void	raise_error(int err_code);
+void		raise_error(int err_code);
 
 #endif

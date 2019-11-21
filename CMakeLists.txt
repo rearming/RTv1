@@ -9,9 +9,14 @@ if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
     add_compile_options(-Werror -O2)
 endif()
 
+# <----RTv1 compile---->
+
+find_library(OPENCL OpenCL)
+
 include_directories(
         libft/includes
-        includes)
+        includes
+        SDL2_libs/SDL2.framework/Headers)
 
 set(sources
         sources/main.c
@@ -19,12 +24,20 @@ set(sources
         sources/render/bresenham.c
         sources/hooks/hooks.c
         sources/init/init.c
-        sources/render/render_utils.c)
+        sources/render/render_utils.c
+        sources/SDL_utils/sdl_clean.c
+        sources/SDL_utils/sdl_loop.c
+        sources/SDL_utils/sdl_exit.c
+        sources/render/ray_sphere_intersect.c
+        sources/math_utils/vector_math.c
+        includes/math_utils.h
+        sources/math_utils/math_utils.c sources/render/render.c)
 
 link_directories(
         libft
         libft/ft_printf
-        /usr/local/lib)
+        SDL2_libs/
+)
 
 add_executable(RTv1
         ${sources}
@@ -33,10 +46,10 @@ add_executable(RTv1
 target_link_libraries(RTv1
         "ft"
         "ftprintf"
-        "mlx"
-        "-framework OpenGL"
-        "-framework AppKit"
-        "-framework OpenCL")
+        "-F ${PROJECT_SOURCE_DIR}/SDL2_libs -framework SDL2"
+        ${OpenCL})
+
+# <----TESTING----> #
 
 set(test_sources
         test/test_main.c)
@@ -46,8 +59,4 @@ add_executable(test
 
 target_link_libraries(test
         "ft"
-        "ftprintf"
-        "mlx"
-        "-framework OpenGL"
-        "-framework AppKit"
-        "-framework OpenCL")
+        "ftprintf")
