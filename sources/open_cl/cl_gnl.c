@@ -1,11 +1,12 @@
 #include "rtv1.h"
 
-char		*cl_gnl(int fd)
+char	*cl_gnl(int fd, size_t *out_size)
 {
 	t_cl_gnl	gnl;
 
 	gnl.sum_len = 0;
 	gnl.backup = malloc(1);
+	gnl.backup[0] = 0;
 	gnl.temp_str = NULL;
 	if (fd < 0 || read(fd, gnl.buf, 0) < 0)
 		raise_error(ERR_INV_FILE);
@@ -17,5 +18,6 @@ char		*cl_gnl(int fd)
 		free(gnl.backup);
 		gnl.backup = gnl.temp_str;
 	}
+	*out_size = gnl.sum_len;
 	return (gnl.backup);
 }

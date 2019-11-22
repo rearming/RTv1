@@ -65,9 +65,15 @@ void		sdl_loop(t_rtv1 *rtv1);
 ** OpenCL
 */
 
-char		*cl_gnl(int fd);
+char		*cl_gnl(int fd, size_t *out_size);
+char		*get_cl_file(size_t *out_size);
+
 void		cl_init(t_rtv1 *rtv1);
-void		cl_render(t_rtv1 *rtv1);
+void		render_gpu(t_rtv1 *rtv1);
+
+void		cl_set_kernel(t_rtv1 *rtv1, t_opencl *cl);
+void		cl_clean_memobjs(t_opencl *cl);
+
 
 /*
 **	Error management

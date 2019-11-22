@@ -23,6 +23,8 @@
 
 # define COL_BG COL_GREY
 
+# define MATERIAL_OPAQUE -1
+
 # define EXIT_SUCCESS 0
 
 #endif

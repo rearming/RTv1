@@ -138,6 +138,11 @@ typedef struct			s_light
 typedef struct			s_material
 {
 	t_color				color;
+#ifndef FT_OPENCL___
+	cl_int				specularity;
+#else
+	int					specularity;
+#endif
 }						t_material;
 
 typedef struct			s_object

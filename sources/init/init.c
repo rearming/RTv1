@@ -16,7 +16,11 @@ void		init_sdl(t_sdl *out_sdl)
 		raise_error(ERR_SDL_TEXTURE_CREATE);
 }
 
-t_object	new_sphere(cl_float3 center, float radius, int color)
+t_object	new_sphere(
+		cl_float3 center,
+		float radius,
+		int color,
+		int specularity)
 {
 	t_object	sphere;
 
@@ -24,6 +28,7 @@ t_object	new_sphere(cl_float3 center, float radius, int color)
 	sphere.center = center;
 	sphere.radius = radius;
 	sphere.material.color.value = color;
+	sphere.material.specularity = specularity;
 	return (sphere);
 }
 
@@ -32,10 +37,10 @@ void		init_scene(t_scene *out_scene)
 	out_scene->obj_nbr = 4;
 	if (!(out_scene->objects = malloc(sizeof(t_object) * (out_scene->obj_nbr))))
 		raise_error(ERR_MALLOC);
-	out_scene->objects[0] = new_sphere((cl_float3){{ 0, -1, 3}}, 1, COL_RED);
-	out_scene->objects[1] = new_sphere((cl_float3){{ 2, 0,  4}}, 1, COL_BLUE);
-	out_scene->objects[2] = new_sphere((cl_float3){{ -2, 0,  4}}, 1, COL_GREEN);
-	out_scene->objects[3] = new_sphere((cl_float3){{ 0,  -5001, 0}}, 5000, COL_YELLOW);
+	out_scene->objects[0] = new_sphere((cl_float3){{ 0, -1, 3}}, 1, COL_RED, 500);
+	out_scene->objects[1] = new_sphere((cl_float3){{ 2, 0,  4}}, 1, COL_BLUE, 500);
+	out_scene->objects[2] = new_sphere((cl_float3){{ -2, 0,  4}}, 1, COL_GREEN, 10);
+	out_scene->objects[3] = new_sphere((cl_float3){{ 0,  -5001, 0}}, 5000, COL_YELLOW, 1000);
 
 	out_scene->lights_nbr = 3;
 	if (!(out_scene->lights = malloc(sizeof(t_light) * out_scene->obj_nbr)))

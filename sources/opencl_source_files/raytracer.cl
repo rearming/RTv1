@@ -1,59 +1,23 @@
-//todo __global to __const
-
-int 				in_range_inclusive(float number, float min, float max)
+void				ray_sphere_intersect(
+		float3 camera_pos,
+		float3 ray_dir,
+		__constant t_object *sphere,
+		float *out_x1,
+		float *out_x2)
 {
-	if (number >= min && number <= max)
-		return (TRUE);
-	else
-		return (FALSE);
-}
+	const float3	origin_center = camera_pos - sphere->center;
+	float 			a, b, c, discriminant;
 
-float3			canvas_to_viewport(__constant t_camera *camera, float3 canvas_point)
-{
-	float3		result;
+	a = dot(ray_dir, ray_dir);
+	b = 2 * dot(origin_center, ray_dir);
+	c = dot(origin_center, origin_center) - sphere->radius * sphere->radius;
+	discriminant = b * b - 4 * a * c;
+	if (discriminant < 0)
+	return ;
+	float sqrt_discriminant = sqrt(discriminant);
 
-	return (float3)
-	(
-		canvas_point.x * camera->viewport_width / WIN_WIDTH,
-		canvas_point.y * camera->viewport_height / WIN_HEIGHT,
-		camera->viewport_distance
-	);
-}
-
-t_point		get_videomem_coord_system_point(t_point raw_point)
-{
-t_point		result;
-
-result.x = WIN_WIDTH / 2 + raw_point.x;
-result.y = WIN_HEIGHT / 2 - raw_point.y;
-result.color = raw_point.color;
-return (result);
-}
-
-void	image_put_pixel(__global int *img_data, t_point point)
-{
-	if (point.x >= 0 && point.x < WIN_WIDTH
-		&& point.y >= 0 && point.y < WIN_HEIGHT)
-		img_data[point.x + point.y * WIN_WIDTH] = point.color.value;
-	//todo ограничение цвета от COL_BLACK до COL_WHITE ?
-}
-
-int					change_color_intensity(t_color color, float intensity)
-{
-	t_color		result_color;
-//
-////	if (intensity > 1)
-////		intensity = 1;
-////	if (intensity < 0)
-////		intensity = 0;
-////	color.a = intensity; //todo alpha не надо трогать?
-	result_color.rgb.a = color.rgb.a;
-	result_color.rgb.r = color.rgb.r * intensity;
-	result_color.rgb.g = color.rgb.g * intensity;
-	result_color.rgb.b = color.rgb.b * intensity;
-
-	return result_color.value;
-//	return (a << 24 | r << 16 | g << 8 | b);
+	*out_x1 = (-b + sqrt_discriminant) / (2 * a); //todo check -O2 cached sqrt
+	*out_x2 = (-b - sqrt_discriminant) / (2 * a);
 }
 
 float3			compute_normal(float3 point, __constant t_object *intersect_obj)
@@ -98,31 +62,19 @@ float				compute_lighting(
 		if (normal_dot_light > 0)
 			intensity += lights[i].intensity * normal_dot_light
 						 / (length(normal) * length(light));
+		if (intersect_obj->material.specularity != MATERIAL_OPAQUE)
+		{
+			float3	perfect_reflect = 2 * normal * dot(normal, light) - light;
+			float	perfect_reflect_dot_opposite_ray_dir = dot(perfect_reflect, -ray_dir);
+
+			if (perfect_reflect_dot_opposite_ray_dir > 0)
+				intensity += lights[i].intensity *
+						pow(perfect_reflect_dot_opposite_ray_dir / (length(perfect_reflect) * length(-ray_dir)),
+								intersect_obj->material.specularity);
+		}
 		i++;
 	}
 	return (intensity);
-}
-
-void				ray_sphere_intersect(
-		float3 camera_pos,
-		float3 ray_dir,
-		__constant t_object *sphere,
-		float *out_x1,
-		float *out_x2)
-{
-	const float3	origin_center = camera_pos - sphere->center;
-	float 			a, b, c, discriminant;
-
-	a = dot(ray_dir, ray_dir);
-	b = 2 * dot(origin_center, ray_dir);
-	c = dot(origin_center, origin_center) - sphere->radius * sphere->radius;
-	discriminant = b * b - 4 * a * c;
-	if (discriminant < 0)
-		return ;
-	float sqrt_discriminant = sqrt(discriminant);
-
-	*out_x1 = (-b + sqrt_discriminant) / (2 * a); //todo check -O2 cached sqrt
-	*out_x2 = (-b - sqrt_discriminant) / (2 * a);
 }
 
 void find_intersection(

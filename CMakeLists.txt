@@ -31,7 +31,7 @@ set(sources
         sources/math_utils/math_utils.c
         sources/render/render.c
         sources/open_cl/cl_gnl.c
-        sources/open_cl/cl_init.c)
+        sources/open_cl/cl_init.c sources/open_cl/cl_files_parser.c sources/open_cl/cl_render.c sources/open_cl/cl_memory_management.c)
 
 link_directories(
         libft
