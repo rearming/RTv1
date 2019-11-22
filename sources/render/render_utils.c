@@ -10,13 +10,13 @@ t_point		get_videomem_coord_system_point(t_point raw_point)
 	return (result);
 }
 
-t_vector			canvas_to_viewport(t_rtv1 *rtv1, t_vector canvas_point)
+cl_float3			canvas_to_viewport(t_rtv1 *rtv1, cl_float3 canvas_point)
 {
-	return ((t_vector)
+	return ((cl_float3)
 	{
 		.x = canvas_point.x * rtv1->camera.viewport_width / WIN_WIDTH,
 		.y = canvas_point.y * rtv1->camera.viewport_height / WIN_HEIGHT,
-		rtv1->camera.viewport_distance
+		.z = rtv1->camera.viewport_distance
 	});
 }
 

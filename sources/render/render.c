@@ -18,23 +18,23 @@ int					change_color_intensity(int color, float intensity)
 	return (a << 24 | r << 16 | g << 8 | b);
 }
 
-t_vector			compute_normal(t_vector point, t_object intersect_obj)
+cl_float3			compute_normal(cl_float3 point, t_object intersect_obj)
 {
 	if (intersect_obj.type == SPHERE)
 		return (vec_normalize(vec_subtract(point, ((t_sphere*)intersect_obj.obj)->center)));
-	return ((t_vector){0, 0, 0});
+	return ((cl_float3){.x = 0, .y = 0, .z = 0});
 }
 
 float				compute_lighting(
 		t_rtv1 *rtv1,
-		t_vector ray_dir,
+		cl_float3 ray_dir,
 		float closest_intersect,
 		t_object intersect_obj//todo это будет generic функция, считающая нормаль к любой поверхности?
 		)
 {
-	t_vector	point;
-	t_vector	normal;
-	t_vector	light;
+	cl_float3	point;
+	cl_float3	normal;
+	cl_float3	light;
 	float		normal_dot_light;
 	float		intensity;
 	int			i;
@@ -66,7 +66,7 @@ float				compute_lighting(
 
 void find_intersection(
 		t_rtv1 *rtv1,
-		t_vector ray_dir,
+		cl_float3 ray_dir,
 		t_object object,
 		float *out_intersect1,
 		float *out_intersect2)
@@ -79,7 +79,7 @@ void find_intersection(
 
 int					trace_ray(
 		t_rtv1 *rtv1,
-		t_vector ray_dir,
+		cl_float3 ray_dir,
 		float ray_min,
 		float ray_max)
 {
@@ -119,7 +119,7 @@ int					trace_ray(
 
 void		render_scene(t_rtv1 *rtv1)
 {
-	t_vector		ray_dir;
+	cl_float3		ray_dir;
 	t_point			result;
 
 	result.x = -WIN_WIDTH / 2;
@@ -128,7 +128,7 @@ void		render_scene(t_rtv1 *rtv1)
 		result.y = -WIN_HEIGHT / 2;
 		while (result.y < WIN_HEIGHT / 2)
 		{
-			ray_dir = canvas_to_viewport(rtv1, (t_vector){(float)result.x, (float)result.y, 0});
+			ray_dir = canvas_to_viewport(rtv1, (cl_float3){{result.x, result.y, 0}});
 			result.color = trace_ray(rtv1, ray_dir, rtv1->camera.viewport_distance, INFINITY);
 			image_put_pixel(rtv1->img_data, get_videomem_coord_system_point(result));
 			result.y++;

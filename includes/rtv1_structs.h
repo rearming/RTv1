@@ -1,6 +1,22 @@
 #ifndef RTV1_STRUCTS_H
 # define RTV1_STRUCTS_H
 
+typedef struct			s_dpoint
+{
+	float				x;
+	float				y;
+	float				z;
+}						t_dpoint;
+
+typedef struct			s_point
+{
+	int					x;
+	int					y;
+	int					z;
+	int					color;
+}						t_point;
+
+# ifndef FT_OPENCL___
 typedef struct			s_sdl
 {
 	SDL_Window			*win;
@@ -34,28 +50,6 @@ typedef struct			s_quadratic_eq
 	float				x2;
 }						t_quadratic_eq;
 
-typedef struct			s_vector
-{
-	float				x;
-	float				y;
-	float				z;
-}						t_vector;
-
-typedef struct			s_dpoint
-{
-	float				x;
-	float				y;
-	float				z;
-}						t_dpoint;
-
-typedef struct			s_point
-{
-	int					x;
-	int					y;
-	int					z;
-	int					color;
-}						t_point;
-
 typedef struct			s_line
 {
 	t_point				start;
@@ -66,13 +60,18 @@ typedef struct			s_line
 	int					error;
 	int					ystep;
 }						t_line;
+# endif
 
 typedef struct			s_camera
 {
 	int					viewport_width;
 	int					viewport_height;
 	float				viewport_distance;
-	t_vector			pos;
+#  ifndef FT_OPENCL___
+	cl_float3			pos;
+#  else
+	float3				pos;
+#  endif
 }						t_camera;
 
 /*
@@ -83,8 +82,13 @@ typedef struct			s_light
 {
 	int					type;
 	float				intensity;
-	t_vector			pos;
-	t_vector			dir;
+#  ifndef FT_OPENCL___
+	cl_float3			pos;
+	cl_float3			dir;
+#  else
+	float3				pos;
+	float3				dir;
+#  endif
 }						t_light;
 
 typedef struct	s_plane 	t_plane;
@@ -93,8 +97,12 @@ typedef struct	s_cylinder	t_cylinder;
 
 typedef struct			s_sphere
 {
-	t_vector			center;
 	float				raduis;
+#  ifndef FT_OPENCL___
+	cl_float3			center;
+#  else
+	float3				center;
+#  endif
 }						t_sphere;
 
 typedef struct			s_object
@@ -106,12 +114,20 @@ typedef struct			s_object
 
 typedef struct			s_scene
 {
-	t_object			*objects;
+#ifndef FT_OPENCL___
 	int					obj_nbr;
-	t_light				*lights;
 	int					lights_nbr;
+	t_object			*objects;
+	t_light				*lights;
+#else
+	int					obj_nbr;
+	int					lights_nbr;
+	t_object			*objects;
+	t_light				*lights;
+#endif
 }						t_scene;
 
+# ifndef FT_OPENCL___
 typedef struct			s_rtv1
 {
 	t_sdl				sdl;
@@ -131,5 +147,6 @@ typedef struct			s_cl_gnl
 	int					read_res;
 	size_t				sum_len;
 }						t_cl_gnl;
+# endif
 
 #endif

@@ -2,14 +2,14 @@
 
 void				ray_sphere_intersect(
 		t_rtv1 *rtv1,
-		t_vector ray_dir,
+		cl_float3 ray_dir,
 		const t_sphere *sphere,
 		float *out_x1,
 		float *out_x2)
 {
-	t_vector		center = sphere->center;
+	cl_float3		center = sphere->center;
 	float			radius = sphere->raduis;
-	const t_vector	origin_center = vec_subtract(rtv1->camera.pos, center);
+	const cl_float3	origin_center = vec_subtract(rtv1->camera.pos, center);
 	t_quadratic_eq	eq;
 
 	eq.a = dot_product(ray_dir, ray_dir);

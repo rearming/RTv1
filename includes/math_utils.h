@@ -5,11 +5,11 @@
 
 int 				in_range_inclusive(float number, float min, float max);
 
-float				dot_product(t_vector vec1, t_vector vec2);
-t_vector			vec_subtract(t_vector vec1, t_vector vec2);
-t_vector			vec_add(t_vector vec1, t_vector vec2);
-t_vector			vec_mult_by_scalar(t_vector vec, float scalar);
-float				vec_magnitude(t_vector vec);
-t_vector			vec_normalize(t_vector vec);
+float				dot_product(cl_float3 vec1, cl_float3 vec2);
+cl_float3			vec_subtract(cl_float3 vec1, cl_float3 vec2);
+cl_float3			vec_add(cl_float3 vec1, cl_float3 vec2);
+cl_float3			vec_mult_by_scalar(cl_float3 vec, float scalar);
+float				vec_magnitude(cl_float3 vec);
+cl_float3			vec_normalize(cl_float3 vec);
 
 #endif

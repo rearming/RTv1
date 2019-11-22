@@ -35,13 +35,13 @@ int			cross_close(void *param);
 **	Render
 */
 
-void render(t_rtv1 *rtv1, void (*render_func)(t_rtv1 *));
-
+void		render(t_rtv1 *rtv1, void (*render_func)(t_rtv1 *));
+void		render_scene(t_rtv1 *rtv1);
 /*
 ** Raytracing objects
 */
 
-void		ray_sphere_intersect(t_rtv1 *rtv1, t_vector ray_dir,
+void		ray_sphere_intersect(t_rtv1 *rtv1, cl_float3 ray_dir,
 		const t_sphere *sphere, float *out_x1, float *out_x2);
 
 /*
@@ -51,7 +51,7 @@ void		ray_sphere_intersect(t_rtv1 *rtv1, t_vector ray_dir,
 void		image_put_pixel(int *img_data, t_point point);
 void		bresen_line(int *img_data, t_point start, t_point end);
 t_point		get_videomem_coord_system_point(t_point raw_point);
-t_vector	canvas_to_viewport(t_rtv1 *rtv1, t_vector canvas_point);
+cl_float3	canvas_to_viewport(t_rtv1 *rtv1, cl_float3 canvas_point);
 
 /*
 **	SDL

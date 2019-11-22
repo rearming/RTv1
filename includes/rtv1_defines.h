@@ -5,8 +5,6 @@
 # define TRUE 1
 # define FALSE 0
 
-# define OPENCL_KERNEL_FILE_PATH "./sources/open_cl/raytracer.cl"
-
 # define WIN_TITLE "Dota 4"
 
 # define WIN_WIDTH 1000
