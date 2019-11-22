@@ -1,27 +1,24 @@
 #include "rtv1.h"
 
-int					change_color_intensity(int color, float intensity)
+int					change_color_intensity(t_color color, float intensity)
 {
-	unsigned char	a;
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
+	t_color		result_color;
 
 //	if (intensity > 1)
 //		intensity = 1;
 //	if (intensity < 0)
 //		intensity = 0;
-	a = ((color >> 24) & 0xFF) * intensity;
-	r = ((color >> 16) & 0xFF) * intensity;
-	g = ((color >> 8) & 0xFF) * intensity;
-	b = (color & 0xFF) * intensity;
-	return (a << 24 | r << 16 | g << 8 | b);
+	result_color.rgb.a = color.rgb.a;
+	result_color.rgb.r = color.rgb.r * intensity;
+	result_color.rgb.g = color.rgb.g * intensity;
+	result_color.rgb.b = color.rgb.b * intensity;
+	return (result_color.value);
 }
 
 cl_float3			compute_normal(cl_float3 point, t_object intersect_obj)
 {
 	if (intersect_obj.type == SPHERE)
-		return (vec_normalize(vec_subtract(point, ((t_sphere*)intersect_obj.obj)->center)));
+		return (vec_normalize(vec_subtract(point, intersect_obj.center)));
 	return ((cl_float3){.x = 0, .y = 0, .z = 0});
 }
 
@@ -74,7 +71,7 @@ void find_intersection(
 	*out_intersect1 = INFINITY;
 	*out_intersect2 = INFINITY;
 	if (object.type == SPHERE)
-		ray_sphere_intersect(rtv1, ray_dir, (t_sphere*)object.obj, out_intersect1, out_intersect2);
+		ray_sphere_intersect(rtv1, ray_dir, object, out_intersect1, out_intersect2);
 }
 
 int					trace_ray(
@@ -86,11 +83,11 @@ int					trace_ray(
 	float		closest_intersect;
 	float		intersect_1;
 	float		intersect_2;
-	int			result_color;
+	t_color		color;
 	int			closest_obj_i;
 	int			i;
 
-	result_color = COL_BG;
+	color.value = COL_BG;
 	closest_intersect = INFINITY;
 	closest_obj_i = NOT_SET;
 	i = 0;
@@ -100,24 +97,24 @@ int					trace_ray(
 		if (in_range_inclusive(intersect_1, ray_min, ray_max) && intersect_1 < closest_intersect)
 		{
 			closest_intersect = intersect_1;
-			result_color = rtv1->scene.objects[i].color;
+			color.value = rtv1->scene.objects[i].material.color.value;
 			closest_obj_i = i;
 		}
 		if (in_range_inclusive(intersect_2, ray_min, ray_max) && intersect_2 < closest_intersect)
 		{
 			closest_intersect = intersect_2;
-			result_color = rtv1->scene.objects[i].color;
+			color.value = rtv1->scene.objects[i].material.color.value;
 			closest_obj_i = i;
 		}
 		i++;
 	}
 	if (closest_obj_i != NOT_SET)
-		return (change_color_intensity(result_color,
+		return (change_color_intensity(color,
 				compute_lighting(rtv1, ray_dir, closest_intersect, rtv1->scene.objects[closest_obj_i])));
-	return (result_color);
+	return (color.value);
 }
 
-void		render_scene(t_rtv1 *rtv1)
+void		render_cpu(t_rtv1 *rtv1)
 {
 	cl_float3		ray_dir;
 	t_point			result;
@@ -129,7 +126,7 @@ void		render_scene(t_rtv1 *rtv1)
 		while (result.y < WIN_HEIGHT / 2)
 		{
 			ray_dir = canvas_to_viewport(rtv1, (cl_float3){{result.x, result.y, 0}});
-			result.color = trace_ray(rtv1, ray_dir, rtv1->camera.viewport_distance, INFINITY);
+			result.color.value = trace_ray(rtv1, ray_dir, rtv1->camera.viewport_distance, INFINITY);
 			image_put_pixel(rtv1->img_data, get_videomem_coord_system_point(result));
 			result.y++;
 		}

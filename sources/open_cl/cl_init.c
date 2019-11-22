@@ -18,40 +18,18 @@ char		*get_cl_file(size_t *size)
 	return (cl_file);
 }
 
-//void		convert_scene_to_cl(t_scene *scene, t_scene **out_scene)
-//{
-//	int				i;
-//	t_object		*cl_objs;
-//	t_light		*cl_lights;
-//
-//	if (!(*out_scene = malloc(sizeof(t_scene))))
-//		raise_error(ERR_MALLOC);
-//	if (!(cl_objs = malloc(sizeof(t_object) * scene->obj_nbr)))
-//		raise_error(ERR_MALLOC);
-//	if (!(cl_lights = malloc(sizeof(t_light) * scene->lights_nbr)))
-//		raise_error(ERR_MALLOC);
-//	(*out_scene)->obj_nbr = scene->obj_nbr;
-//	(*out_scene)->lights_nbr = scene->lights_nbr;
-//	i = 0;
-//	while (i < scene->obj_nbr)
-//	{
-////		cl_objs[i] =
-//		i++;
-//	}
-////	cl_float3
-//}
-
 void		cl_set_kernel(t_rtv1 *rtv1, t_opencl *cl)
 {
 	int		err;
 
 	err = 0;
-	//todo нужно сделать CL_MEM_READ_ONLY ?
-	printf("rtv1->scene->obj_num: [%i]\n", rtv1->scene.obj_nbr);
+	//todo research CL_MEM_USE_HOST_PTR
 	cl->scene = clCreateBuffer(cl->context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-			sizeof(t_object) * rtv1->scene.obj_nbr +
-			sizeof(t_light) * rtv1->scene.lights_nbr +
-			sizeof(int) * 2, &rtv1->scene, &err);
+			sizeof(t_scene), &rtv1->scene, &err);
+	cl->objects = clCreateBuffer(cl->context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+			sizeof(t_object) * rtv1->scene.obj_nbr, rtv1->scene.objects, &err);
+	cl->lights = clCreateBuffer(cl->context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+			sizeof(t_light) * rtv1->scene.lights_nbr, rtv1->scene.lights, &err);
 	cl->camera = clCreateBuffer(cl->context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
 			sizeof(t_camera), &rtv1->camera, &err);
 	cl->img_data = clCreateBuffer(cl->context, CL_MEM_READ_WRITE,
@@ -59,10 +37,23 @@ void		cl_set_kernel(t_rtv1 *rtv1, t_opencl *cl)
 	if (err)
 		raise_error(ERR_OPENCL_CREATE_BUFFER);
 	err += clSetKernelArg(cl->kernel, 0, sizeof(cl_mem), &cl->scene);
-	err += clSetKernelArg(cl->kernel, 1, sizeof(cl_mem), &cl->camera);
-	err += clSetKernelArg(cl->kernel, 2, sizeof(cl_mem), &cl->img_data);
+	err += clSetKernelArg(cl->kernel, 1, sizeof(cl_mem), &cl->objects);
+	err += clSetKernelArg(cl->kernel, 2, sizeof(cl_mem), &cl->lights);
+	err += clSetKernelArg(cl->kernel, 3, sizeof(cl_mem), &cl->camera);
+	err += clSetKernelArg(cl->kernel, 4, sizeof(cl_mem), &cl->img_data);
 	if (err)
 		raise_error(ERR_OPENCL_SETARG);
+}
+
+void		print_cl_build_program_debug(t_opencl *cl)
+{
+	size_t		log_size;
+	char		*log;
+
+	clGetProgramBuildInfo(cl->program, cl->device_id, CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
+	log = malloc(log_size);
+	clGetProgramBuildInfo(cl->program, cl->device_id, CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
+	printf("OpenCL Log:\n%s\n", log);
 }
 
 void		cl_init(t_rtv1 *rtv1)
@@ -88,7 +79,10 @@ void		cl_init(t_rtv1 *rtv1)
 	if (err)
 		raise_error(ERR_OPENCL_CREATE_PROGRAM);
 	if ((err = clBuildProgram(rtv1->cl.program, 1, &rtv1->cl.device_id, NULL, NULL, NULL)))
+	{
+		print_cl_build_program_debug(&rtv1->cl);
 		raise_error(ERR_OPENCL_BUILD_PROGRAM);
+	}
 	rtv1->cl.kernel = clCreateKernel(rtv1->cl.program, "raytracer", &err);
 	if (err)
 		raise_error(ERR_OPENCL_CREATE_KERNEL);
@@ -107,8 +101,8 @@ void		cl_clean_memobjs(t_opencl *cl)
 
 void		cl_render(t_rtv1 *rtv1)
 {
-//	const size_t	kernel_num = WIN_HEIGHT * WIN_WIDTH;
-	const size_t	kernel_num = 2;
+	const size_t	kernel_num = WIN_HEIGHT * WIN_WIDTH;
+//	const size_t	kernel_num = 1;
 	int				ret = 0;
 
 	cl_set_kernel(rtv1, &rtv1->cl);

@@ -1,6 +1,31 @@
 #ifndef RTV1_STRUCTS_H
 # define RTV1_STRUCTS_H
 
+typedef struct			s_rgb
+{
+#ifndef FT_OPENCL___
+	cl_uchar			r;
+	cl_uchar			g;
+	cl_uchar			b;
+	cl_uchar			a;
+#else
+	unsigned char		r;
+	unsigned char		g;
+	unsigned char		b;
+	unsigned char		a;
+#endif
+}						t_rgb;
+
+typedef union 			u_color
+{
+#ifndef FT_OPENCL___
+	cl_int			value;
+#else
+	int				value;
+#endif
+	t_rgb			rgb;
+}						t_color;
+
 typedef struct			s_dpoint
 {
 	float				x;
@@ -13,7 +38,7 @@ typedef struct			s_point
 	int					x;
 	int					y;
 	int					z;
-	int					color;
+	t_color				color;
 }						t_point;
 
 # ifndef FT_OPENCL___
@@ -36,6 +61,8 @@ typedef struct			s_opencl
 	cl_program			program;
 	cl_kernel			kernel;
 	cl_mem				scene;
+	cl_mem				objects;
+	cl_mem				lights;
 	cl_mem				camera;
 	cl_mem				img_data;
 }						t_opencl;
@@ -78,45 +105,61 @@ typedef struct			s_camera
 ** Objects
 */
 
+typedef enum		e_object_type
+{
+	SPHERE = 1,
+	PLANE,
+	CYLINDER,
+	CONE,
+}					t_object_type;
+
+typedef enum		e_light_type
+{
+	AMBIENT = 1,
+	POINT,
+	DIRECTIONAL,
+}					t_light_type;
+
 typedef struct			s_light
 {
-	int					type;
-	float				intensity;
 #  ifndef FT_OPENCL___
+	t_light_type		type;
+	cl_float			intensity;
 	cl_float3			pos;
 	cl_float3			dir;
 #  else
+	t_light_type		type;
+	float				intensity;
 	float3				pos;
 	float3				dir;
 #  endif
 }						t_light;
 
-typedef struct	s_plane 	t_plane;
-typedef struct	s_cone		t_cone;
-typedef struct	s_cylinder	t_cylinder;
-
-typedef struct			s_sphere
+typedef struct			s_material
 {
-	float				raduis;
-#  ifndef FT_OPENCL___
-	cl_float3			center;
-#  else
-	float3				center;
-#  endif
-}						t_sphere;
+	t_color				color;
+}						t_material;
 
 typedef struct			s_object
 {
-	int					type;
-	int					color;
-	void				*obj;
+#  ifndef FT_OPENCL___
+	t_object_type		type;
+	cl_float			radius;
+	t_material			material;
+	cl_float3			center;
+#  else
+	t_object_type		type;
+	float				radius;
+	t_material			material;
+	float3				center;
+#  endif
 }						t_object;
 
 typedef struct			s_scene
 {
 #ifndef FT_OPENCL___
-	int					obj_nbr;
-	int					lights_nbr;
+	cl_int				obj_nbr;
+	cl_int				lights_nbr;
 	t_object			*objects;
 	t_light				*lights;
 #else

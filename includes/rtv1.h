@@ -36,13 +36,13 @@ int			cross_close(void *param);
 */
 
 void		render(t_rtv1 *rtv1, void (*render_func)(t_rtv1 *));
-void		render_scene(t_rtv1 *rtv1);
+void		render_cpu(t_rtv1 *rtv1);
 /*
 ** Raytracing objects
 */
 
 void		ray_sphere_intersect(t_rtv1 *rtv1, cl_float3 ray_dir,
-		const t_sphere *sphere, float *out_x1, float *out_x2);
+								 const t_object sphere, float *out_x1, float *out_x2);
 
 /*
 ** Render utils

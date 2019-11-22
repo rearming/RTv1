@@ -23,23 +23,6 @@
 
 # define COL_BG COL_GREY
 
-/*
-**	Object types
-*/
-
-# define SPHERE 10
-# define CONE 11
-# define PLANE 12
-# define CYLINDER 13
-
-/*
-** Light types
-*/
-
-# define AMBIENT 101
-# define POINT 102
-# define DIRECTIONAL 103
-
 # define EXIT_SUCCESS 0
 
 #endif

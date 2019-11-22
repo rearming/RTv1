@@ -21,11 +21,9 @@ t_object	new_sphere(cl_float3 center, float radius, int color)
 	t_object	sphere;
 
 	sphere.type = SPHERE;
-	if (!(sphere.obj = malloc(sizeof(t_sphere))))
-		raise_error(ERR_MALLOC);
-	((t_sphere*)sphere.obj)->center = center;
-	((t_sphere*)sphere.obj)->raduis = radius;
-	sphere.color = color;
+	sphere.center = center;
+	sphere.radius = radius;
+	sphere.material.color.value = color;
 	return (sphere);
 }
 
