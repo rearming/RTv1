@@ -27,56 +27,6 @@ float3			compute_normal(float3 point, __constant t_object *intersect_obj)
 	return (float3)(0, 0, 0);
 }
 
-float				compute_lighting(
-		__constant t_scene *scene,
-		__constant t_camera *camera,
-		__constant t_light *lights,
-		float3 ray_dir,
-		float closest_intersect,
-		__constant t_object *intersect_obj)
-{
-	float3		point;
-	float3		normal;
-	float3		light;
-	float		normal_dot_light;
-	float		intensity;
-	int			i;
-
-	point = camera->pos + (ray_dir * closest_intersect);
-	normal = compute_normal(point, intersect_obj);
-	intensity = 0.0f;
-	i = 0;
-	while (i < scene->lights_nbr)
-	{
-		if (lights[i].type == 1)
-		{
-			intensity += lights[i].intensity;
-			i++;
-			continue ;
-		}
-		else if (lights[i].type == POINT)
-			light = lights[i].pos - point;
-		else
-			light = lights[i].dir;
-		normal_dot_light = dot(normal, light);
-		if (normal_dot_light > 0)
-			intensity += lights[i].intensity * normal_dot_light
-						 / (length(normal) * length(light));
-		if (intersect_obj->material.specularity != MATERIAL_OPAQUE)
-		{
-			float3	perfect_reflect = 2 * normal * dot(normal, light) - light;
-			float	perfect_reflect_dot_opposite_ray_dir = dot(perfect_reflect, -ray_dir);
-
-			if (perfect_reflect_dot_opposite_ray_dir > 0)
-				intensity += lights[i].intensity *
-						pow(perfect_reflect_dot_opposite_ray_dir / (length(perfect_reflect) * length(-ray_dir)),
-								intersect_obj->material.specularity);
-		}
-		i++;
-	}
-	return (intensity);
-}
-
 void find_intersection(
 		__constant t_camera *camera,
 		float3 ray_dir,
@@ -135,7 +85,7 @@ int					trace_ray(
 	return (result_color.value);
 }
 
- __kernel void		raytracer(
+__kernel void		raytracer(
 		__constant t_scene *scene,
  		__constant t_object *objects,
  		__constant t_light *lights,

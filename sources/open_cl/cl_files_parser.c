@@ -33,10 +33,12 @@ char		*get_cl_file(size_t *out_size)
 	char		*result_cl_file;
 	char 		*cl_file;
 
-	cl_file = concat_source_code(4,
+	cl_file = concat_source_code(6,
 								 "./includes/rtv1_defines.h",
 								 "./includes/rtv1_structs.h",
+								 "./sources/opencl_source_files/prototypes.cl",
 								 "./sources/opencl_source_files/utils.cl",
+								 "./sources/opencl_source_files/light_computing.cl",
 								 "./sources/opencl_source_files/raytracer.cl");
 	ft_sprintf(&result_cl_file, "%s%s", "#define FT_OPENCL___\n\n", cl_file);
 	*out_size = ft_strlen(result_cl_file);
