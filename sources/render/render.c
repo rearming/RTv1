@@ -26,7 +26,7 @@ float				compute_lighting(
 		t_rtv1 *rtv1,
 		cl_float3 ray_dir,
 		float closest_intersect,
-		t_object intersect_obj//todo это будет generic функция, считающая нормаль к любой поверхности?
+		t_object intersect_obj
 		)
 {
 	cl_float3	point;

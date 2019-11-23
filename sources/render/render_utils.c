@@ -25,5 +25,4 @@ void	image_put_pixel(int *img_data, t_point point)
 	if (point.x >= 0 && point.x < WIN_WIDTH
 	&& point.y >= 0 && point.y < WIN_HEIGHT)
 		img_data[point.x + point.y * WIN_WIDTH] = point.color.value;
-	//todo ограничение цвета от COL_BLACK до COL_WHITE ?
 }

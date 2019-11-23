@@ -48,6 +48,8 @@ void		process_event(SDL_Event *event, t_rtv1 *rtv1)
 	{
 		if (event->key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 			sdl_exit(rtv1);
+		if (event->key.keysym.scancode == SDL_SCANCODE_M)
+			SDL_SetRelativeMouseMode(!SDL_GetRelativeMouseMode());
 		add_key_event(&rtv1->events, event->key.keysym.scancode);
 	}
 	else if (event->type == SDL_MOUSEMOTION)
@@ -74,7 +76,7 @@ void		sdl_loop(t_rtv1 *rtv1)
 		while (SDL_PollEvent(&event) && (event.type == SDL_KEYUP || !SDL_TICKS_PASSED(SDL_GetTicks(), timeout)))
 		{
 			process_event(&event, rtv1);
-//			SDL_FlushEvents(SDL_FIRSTEVENT, SDL_KEYDOWN); //todo!
+//			SDL_FlushEvents(SDL_FIRSTEVENT, SDL_KEYDOWN);
 		}
 		if (event.type == SDL_QUIT)
 			break ;

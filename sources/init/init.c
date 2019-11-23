@@ -45,9 +45,10 @@ void		init_scene(t_scene *out_scene)
 	out_scene->lights_nbr = 3;
 	if (!(out_scene->lights = malloc(sizeof(t_light) * out_scene->obj_nbr)))
 		raise_error(ERR_MALLOC);
-	out_scene->lights[0] = (t_light){AMBIENT, 0.2f, {}, {}};
-	out_scene->lights[1] = (t_light){POINT, 0.6f, {{2, 1, 0}}, {}};
-	out_scene->lights[2] = (t_light){DIRECTIONAL, 0.2f, {}, {{1, 4, 4}}};
+	out_scene->lights[0] = (t_light){AMBIENT, 0.2, {}, {}};
+	out_scene->lights[1] = (t_light){POINT, 0.5, {{0, 1, 2}}, {}};
+	out_scene->lights[2] = (t_light){POINT, 0.5, {{0, 1, 6}}, {}};
+//	out_scene->lights[2] = (t_light){DIRECTIONAL, 0.2f, {}, {{1, 4, 4}}};
 }
 
 void		init_events(t_events *events)

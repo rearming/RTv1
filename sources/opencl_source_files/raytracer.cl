@@ -16,7 +16,7 @@ void				ray_sphere_intersect(
 	return ;
 	float sqrt_discriminant = sqrt(discriminant);
 
-	*out_x1 = (-b + sqrt_discriminant) / (2 * a); //todo check -O2 cached sqrt
+	*out_x1 = (-b + sqrt_discriminant) / (2 * a);
 	*out_x2 = (-b - sqrt_discriminant) / (2 * a);
 }
 

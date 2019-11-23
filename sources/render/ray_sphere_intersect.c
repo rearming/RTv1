@@ -18,6 +18,6 @@ void				ray_sphere_intersect(
 	eq.discriminant = eq.b * eq.b - 4 * eq.a * eq.c;
 	if (eq.discriminant < 0)
 		return ;
-	*out_x1 = (-eq.b + (float)sqrtf(eq.discriminant)) / (2 * eq.a); //todo check -O2 cached sqrt
+	*out_x1 = (-eq.b + (float)sqrtf(eq.discriminant)) / (2 * eq.a);
 	*out_x2 = (-eq.b - (float)sqrtf(eq.discriminant)) / (2 * eq.a);
 }

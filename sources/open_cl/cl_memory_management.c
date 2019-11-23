@@ -5,7 +5,6 @@ void		cl_set_kernel(t_rtv1 *rtv1, t_opencl *cl)
 	int		err;
 
 	err = 0;
-	//todo research CL_MEM_USE_HOST_PTR
 	cl->scene = clCreateBuffer(cl->context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
 			sizeof(t_scene), &rtv1->scene, &err);
 	cl->objects = clCreateBuffer(cl->context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
