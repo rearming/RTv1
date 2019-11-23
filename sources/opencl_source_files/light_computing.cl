@@ -15,44 +15,64 @@ float				compute_glare(
 	return result_intensity;
 }
 
+int					in_shadow(
+		__constant t_scene *scene,
+		__constant t_object *objects,
+		float3 point,
+		float3 light_dir,
+		float ray_max)
+{
+	int		found_object = NOT_SET;
+
+	closest_intersection(scene, objects, point, light_dir, 0.01f, ray_max, &found_object, 0);
+	if (found_object != NOT_SET)
+		return true;
+	else
+		return false;
+}
+
 float				compute_lighting(
 	__constant t_scene *scene,
-	__constant t_camera *camera,
 	__constant t_light *lights,
+	__constant t_object *objects,
+	float3 point,
+	float3 normal,
 	float3 ray_dir,
 	float closest_intersect,
-	__constant t_object *intersect_obj)
+	int closest_obj_index)
 {
-	float3		point;
-	float3		normal;
-	float3		light;
+	float3		light_dir;
 	float		normal_dot_light;
 	float		intensity;
-	int			i;
 
-	point = camera->pos + (ray_dir * closest_intersect);
-	normal = compute_normal(point, intersect_obj);
 	intensity = 0.0f;
-	i = 0;
-	while (i < scene->lights_nbr)
+	for (int i = 0; i < scene->lights_nbr; i++)
 	{
+		float		ray_max;
+
 		if (lights[i].type == 1)
 		{
 			intensity += lights[i].intensity;
-			i++;
-			continue ;
+			continue;
 		}
 		else if (lights[i].type == POINT)
-			light = lights[i].pos - point;
+		{
+			light_dir = lights[i].pos - point;
+			ray_max = 1;
+		}
 		else
-			light = lights[i].dir;
-		normal_dot_light = dot(normal, light);
+		{
+			light_dir = lights[i].dir;
+			ray_max = INFINITY;
+		}
+		if (in_shadow(scene, objects, point, light_dir, ray_max))
+			continue;
+		normal_dot_light = dot(normal, light_dir);
 		if (normal_dot_light > 0)
 			intensity += lights[i].intensity * normal_dot_light
-			/ (length(normal) * length(light));
-		if (intersect_obj->material.specularity != MATERIAL_OPAQUE)
-			intensity += compute_glare(normal, light, ray_dir, lights[i].intensity, intersect_obj->material.specularity);
-		i++;
+			/ (length(normal) * length(light_dir));
+		if (objects[closest_obj_index].material.specularity != MATERIAL_OPAQUE)
+			intensity += compute_glare(normal, light_dir, ray_dir, lights[i].intensity, objects[closest_obj_index].material.specularity);
 	}
 	return (intensity);
 }

@@ -1,10 +1,19 @@
 float				compute_lighting(
 		__constant t_scene *scene,
-		__constant t_camera *camera,
 		__constant t_light *lights,
+		__constant t_object *objects,
+		float3 point,
+		float3 normal,
 		float3 ray_dir,
 		float closest_intersect,
-		__constant t_object *intersect_obj);
+		int closest_obj_index);
+
+int					in_shadow(
+		__constant t_scene *scene,
+		__constant t_object *objects,
+		float3 point,
+		float3 light_dir,
+		float ray_max);
 
 float				compute_glare(
 		float3 normal_vec,
@@ -36,11 +45,22 @@ float			compute_glare(
 		int specularity);
 
 void 			find_intersection(
-		__constant t_camera *camera,
+		float3 origin,
 		float3 ray_dir,
 		__constant t_object *object,
 		float *out_intersect1,
 		float *out_intersect2);
+
+float				closest_intersection(
+		__constant t_scene *scene,
+		__constant t_object *objects,
+		float3 origin,
+		float3 ray_dir,
+		float ray_min,
+		float ray_max,
+		int *out_closest_obj_index,
+		t_color *out_result_color
+);
 
 int				trace_ray(
 		__constant t_scene *scene,

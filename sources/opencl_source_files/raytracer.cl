@@ -28,7 +28,7 @@ float3			compute_normal(float3 point, __constant t_object *intersect_obj)
 }
 
 void find_intersection(
-		__constant t_camera *camera,
+		float3 origin,
 		float3 ray_dir,
 		__constant t_object *object,
 		float *out_intersect1,
@@ -38,8 +38,44 @@ void find_intersection(
 	*out_intersect2 = INFINITY;
 	if (object->type == SPHERE)
 	{
-		ray_sphere_intersect(camera->pos, ray_dir, object, out_intersect1, out_intersect2);
+		ray_sphere_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
 	}
+}
+
+float				closest_intersection(
+		__constant t_scene *scene,
+		__constant t_object *objects,
+		float3 origin,
+		float3 ray_dir,
+		float ray_min,
+		float ray_max,
+		int *out_closest_obj_index,
+		t_color *out_result_color
+		)
+{
+	float		closest_intersect = INFINITY;
+	float		intersect_1;
+	float		intersect_2;
+
+	for (int i = 0; i < scene->obj_nbr; i++)
+	{
+		find_intersection(origin, ray_dir, &objects[i], &intersect_1, &intersect_2);
+		if (in_range_inclusive(intersect_1, ray_min, ray_max) && intersect_1 < closest_intersect)
+		{
+			closest_intersect = intersect_1;
+			if (out_result_color) // проверка если нам не нужен цвет, можно послать NULL
+				(*out_result_color).value = objects[i].material.color.value;
+			*out_closest_obj_index = i;
+		}
+		if (in_range_inclusive(intersect_2, ray_min, ray_max) && intersect_2 < closest_intersect)
+		{
+			closest_intersect = intersect_2;
+			if (out_result_color)
+				(*out_result_color).value = objects[i].material.color.value;
+			*out_closest_obj_index = i;
+		}
+	}
+	return (closest_intersect);
 }
 
 int					trace_ray(
@@ -52,37 +88,20 @@ int					trace_ray(
 		float ray_max)
 {
 	float		closest_intersect;
-	float		intersect_1;
-	float		intersect_2;
 	t_color		result_color;
-	int			closest_obj_i;
-	int			i;
+	int			closest_obj_index = NOT_SET;
 
-	result_color.value = COL_BG;
-	closest_intersect = INFINITY;
-	closest_obj_i = NOT_SET;
-	i = 0;
-	while (i < scene->obj_nbr)
-	{
-		find_intersection(camera, ray_dir, &objects[i], &intersect_1, &intersect_2);
-		if (in_range_inclusive(intersect_1, ray_min, ray_max) && intersect_1 < closest_intersect)
-		{
-			closest_intersect = intersect_1;
-			result_color.value = objects[i].material.color.value;
-			closest_obj_i = i;
-		}
-		if (in_range_inclusive(intersect_2, ray_min, ray_max) && intersect_2 < closest_intersect)
-		{
-			closest_intersect = intersect_2;
-			result_color.value = objects[i].material.color.value;
-			closest_obj_i = i;
-		}
-		i++;
-	}
-	if (closest_obj_i != NOT_SET)
-		return (change_color_intensity(result_color,
-				compute_lighting(scene, camera, lights, ray_dir, closest_intersect, &objects[closest_obj_i])));
-	return (result_color.value);
+	float3 origin = camera->pos;
+	closest_intersect = closest_intersection(scene, objects, origin, ray_dir, ray_min, ray_max, &closest_obj_index, &result_color);
+//	printf("closeset intersect: [%f]\n", closest_intersect);
+	if (closest_obj_index == NOT_SET)
+		return COL_BG;
+
+	float3 point = camera->pos + (ray_dir * closest_intersect);
+	float3 normal = compute_normal(point, &objects[closest_obj_index]);
+	return change_color_intensity(
+			result_color,
+			compute_lighting(scene, lights, objects, point, normal, ray_dir, closest_intersect, closest_obj_index));
 }
 
 __kernel void		raytracer(

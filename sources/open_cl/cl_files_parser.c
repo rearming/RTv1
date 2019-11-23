@@ -28,6 +28,11 @@ char		*concat_source_code(int files_nbr, ...)
 	return (gnl.backup);
 }
 
+/*
+**	Добавляя новый .cl файл не забывать
+**	инкрементить число файлов в concat_source_code
+*/
+
 char		*get_cl_file(size_t *out_size)
 {
 	char		*result_cl_file;

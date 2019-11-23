@@ -19,19 +19,22 @@ include_directories(
 set(sources
         sources/main.c
         sources/error.c
-        sources/render/bresenham.c
-        sources/hooks/hooks.c
         sources/init/init.c
-        sources/render/render_utils.c
+        sources/hooks/hooks.c
         sources/SDL_utils/sdl_clean.c
         sources/SDL_utils/sdl_loop.c
         sources/SDL_utils/sdl_exit.c
+        sources/render/bresenham.c
+        sources/render/render_utils.c
         sources/render/ray_sphere_intersect.c
+        sources/render/render.c
         sources/math_utils/vector_math.c
         sources/math_utils/math_utils.c
-        sources/render/render.c
         sources/open_cl/cl_gnl.c
-        sources/open_cl/cl_init.c sources/open_cl/cl_files_parser.c sources/open_cl/cl_render.c sources/open_cl/cl_memory_management.c)
+        sources/open_cl/cl_init.c
+        sources/open_cl/cl_files_parser.c
+        sources/open_cl/cl_render.c
+        sources/open_cl/cl_memory_management.c)
 
 link_directories(
         libft
