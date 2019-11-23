@@ -32,6 +32,12 @@ int			key_press(int keycode, void *param);
 int			cross_close(void *param);
 
 /*
+**	Translations
+*/
+
+void		camera_move(t_camera *camera, t_events *events);
+
+/*
 **	Render
 */
 

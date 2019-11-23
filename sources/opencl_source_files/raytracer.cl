@@ -80,7 +80,7 @@ float				closest_intersection(
 
 int					trace_ray(
 		__constant t_scene *scene,
-		__constant t_camera *camera,
+		float3 origin,
 		__constant t_object *objects,
 		__constant t_light *lights,
 		float3 ray_dir,
@@ -91,13 +91,11 @@ int					trace_ray(
 	t_color		result_color;
 	int			closest_obj_index = NOT_SET;
 
-	float3 origin = camera->pos;
 	closest_intersect = closest_intersection(scene, objects, origin, ray_dir, ray_min, ray_max, &closest_obj_index, &result_color);
-//	printf("closeset intersect: [%f]\n", closest_intersect);
 	if (closest_obj_index == NOT_SET)
 		return COL_BG;
 
-	float3 point = camera->pos + (ray_dir * closest_intersect);
+	float3 point = origin + (ray_dir * closest_intersect);
 	float3 normal = compute_normal(point, &objects[closest_obj_index]);
 	return change_color_intensity(
 			result_color,
@@ -111,16 +109,20 @@ __kernel void		raytracer(
  		__constant t_camera *camera,
  		__global int *img_data)
 {
-	int			g_id = get_global_id(0);
-
-	int			x = g_id % WIN_WIDTH;
-	int			y = g_id / WIN_HEIGHT;
 	t_color		result_color;
 
+	int			g_id = get_global_id(0);
+	int			x = g_id % WIN_WIDTH;
+	int			y = g_id / WIN_HEIGHT;
+
 	x -= WIN_WIDTH / 2;
-	y -= WIN_HEIGHT / 2; //todo но вообще-то это перевернутое изображение (рендер с нижнего левого края)
+	y -= WIN_HEIGHT / 2;
+	y = -y;
 
 	float3 ray_dir = canvas_to_viewport(camera, (float3)(x, y, 0));
-	result_color.value = trace_ray(scene, camera, objects, lights, ray_dir, camera->viewport_distance, INFINITY);
-	image_put_pixel(img_data, get_videomem_coord_system_point((t_point){x, y, 0, result_color}));
+//	printf("ray_dir: x: %.3f, y: %.3f, z: %.3f before\n", ray_dir.x, ray_dir.y, ray_dir.z);
+	rotate_point(&ray_dir, camera->rotation);
+//	printf("ray_dir: x: %.3f, y: %.3f, z: %.3f after\n", ray_dir.x, ray_dir.y, ray_dir.z);
+	result_color.value = trace_ray(scene, camera->pos, objects, lights, ray_dir, camera->viewport_distance, INFINITY);
+	img_data[g_id] = result_color.value;
 }

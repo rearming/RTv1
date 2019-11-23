@@ -37,10 +37,10 @@ void		init_scene(t_scene *out_scene)
 	out_scene->obj_nbr = 4;
 	if (!(out_scene->objects = malloc(sizeof(t_object) * (out_scene->obj_nbr))))
 		raise_error(ERR_MALLOC);
-	out_scene->objects[0] = new_sphere((cl_float3){{ 0, -1, 3}}, 1, COL_RED, 500);
-	out_scene->objects[1] = new_sphere((cl_float3){{ 2, 0,  4}}, 1, COL_BLUE, 500);
-	out_scene->objects[2] = new_sphere((cl_float3){{ -2, 0,  4}}, 1, COL_GREEN, 10);
-	out_scene->objects[3] = new_sphere((cl_float3){{ 0,  -5001, 0}}, 5000, COL_YELLOW, 1000);
+	out_scene->objects[0] = new_sphere((cl_float3){{0, -1, 3}}, 1, COL_RED, 500);
+	out_scene->objects[2] = new_sphere((cl_float3){{-2, 0, 4}}, 1, COL_BLUE, 10);
+	out_scene->objects[1] = new_sphere((cl_float3){{2, 0,  4}}, 1, COL_GREEN, 500);
+	out_scene->objects[3] = new_sphere((cl_float3){{0, -5001, 0}}, 5000, COL_YELLOW, 1000);
 
 	out_scene->lights_nbr = 3;
 	if (!(out_scene->lights = malloc(sizeof(t_light) * out_scene->obj_nbr)))
@@ -50,16 +50,27 @@ void		init_scene(t_scene *out_scene)
 	out_scene->lights[2] = (t_light){DIRECTIONAL, 0.2f, {}, {{1, 4, 4}}};
 }
 
+void		init_events(t_events *events)
+{
+	events->w = FALSE;
+	events->a = FALSE;
+	events->s = FALSE;
+	events->d = FALSE;
+	events->space = FALSE;
+	events->lshift = FALSE;
+}
+
 void		init_rtv1(t_rtv1 *out_rtv1)
 {
 	init_sdl(&out_rtv1->sdl);
 	init_scene(&out_rtv1->scene);
+	init_events(&out_rtv1->events);
 
 	out_rtv1->camera = (t_camera){
-			.pos = (cl_float3){{0, 0, 0}},
+			.pos = (cl_float3){{0, 1, 0}},
+			.rotation = (cl_float3){{0, 0, 0}},
 			.viewport_distance = 1,
 			.viewport_width = 1,
-			.viewport_height = 1
+			.viewport_height = (float)WIN_HEIGHT / WIN_WIDTH
 	};
-
 }

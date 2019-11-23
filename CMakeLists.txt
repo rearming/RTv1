@@ -20,7 +20,7 @@ set(sources
         sources/main.c
         sources/error.c
         sources/init/init.c
-        sources/hooks/hooks.c
+        sources/hooks/moves.c
         sources/SDL_utils/sdl_clean.c
         sources/SDL_utils/sdl_loop.c
         sources/SDL_utils/sdl_exit.c
@@ -34,7 +34,8 @@ set(sources
         sources/open_cl/cl_init.c
         sources/open_cl/cl_files_parser.c
         sources/open_cl/cl_render.c
-        sources/open_cl/cl_memory_management.c)
+        sources/open_cl/cl_memory_management.c
+        sources/math_utils/rotation.c)
 
 link_directories(
         libft

@@ -1,6 +1,8 @@
 #ifndef RTV1_STRUCTS_H
 # define RTV1_STRUCTS_H
 
+typedef unsigned int	t_bool;
+
 typedef struct			s_rgb
 {
 #ifndef FT_OPENCL___
@@ -91,13 +93,18 @@ typedef struct			s_line
 
 typedef struct			s_camera
 {
-	int					viewport_width;
-	int					viewport_height;
-	float				viewport_distance;
 #  ifndef FT_OPENCL___
+	cl_float			viewport_width;
+	cl_float			viewport_height;
+	cl_float			viewport_distance;
 	cl_float3			pos;
+	cl_float3			rotation;
 #  else
+	float				viewport_width;
+	float				viewport_height;
+	float				viewport_distance;
 	float3				pos;
+	float3				rotation;
 #  endif
 }						t_camera;
 
@@ -176,12 +183,24 @@ typedef struct			s_scene
 }						t_scene;
 
 # ifndef FT_OPENCL___
+
+typedef struct			s_events
+{
+	t_bool				w;
+	t_bool				a;
+	t_bool				s;
+	t_bool				d;
+	t_bool				space;
+	t_bool				lshift;
+}						t_events;
+
 typedef struct			s_rtv1
 {
 	t_sdl				sdl;
 	t_opencl			cl;
 	int					*img_data;
 	t_camera			camera;
+	t_events			events;
 	t_scene				scene;
 }						t_rtv1;
 

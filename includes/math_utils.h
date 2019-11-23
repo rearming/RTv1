@@ -12,4 +12,9 @@ cl_float3			vec_mult_by_scalar(cl_float3 vec, float scalar);
 float				vec_magnitude(cl_float3 vec);
 cl_float3			vec_normalize(cl_float3 vec);
 
+void				rotate_y(cl_float3 *point, double angle);
+void				rotate_x(cl_float3 *point, double angle);
+void				rotate_z(cl_float3 *point, double angle);
+void				rotate_point(cl_float3 *point, cl_float3 angle);
+
 #endif

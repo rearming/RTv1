@@ -1,3 +1,8 @@
+void		rotate_y(float3 *point, float angle);
+void		rotate_x(float3 *point, float angle);
+void		rotate_z(float3 *point, float angle);
+void		rotate_point(float3 *point, float3 angle);
+
 float				compute_lighting(
 		__constant t_scene *scene,
 		__constant t_light *lights,
@@ -24,8 +29,6 @@ float				compute_glare(
 
 int 			in_range_inclusive(float number, float min, float max);
 float3			canvas_to_viewport(__constant t_camera *camera, float3 canvas_point);
-t_point			get_videomem_coord_system_point(t_point raw_point);
-void			image_put_pixel(__global int *img_data, t_point point);
 int				change_color_intensity(t_color color, float intensity);
 
 void			ray_sphere_intersect(
@@ -62,9 +65,9 @@ float				closest_intersection(
 		t_color *out_result_color
 );
 
-int				trace_ray(
+int					trace_ray(
 		__constant t_scene *scene,
-		__constant t_camera *camera,
+		float3 origin,
 		__constant t_object *objects,
 		__constant t_light *lights,
 		float3 ray_dir,
