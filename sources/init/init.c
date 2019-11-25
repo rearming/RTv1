@@ -38,16 +38,15 @@ void		init_scene(t_scene *out_scene)
 	if (!(out_scene->objects = malloc(sizeof(t_object) * (out_scene->obj_nbr))))
 		raise_error(ERR_MALLOC);
 	out_scene->objects[0] = new_sphere((cl_float3){{0, -1, 3}}, 1, COL_RED, 500);
-	out_scene->objects[2] = new_sphere((cl_float3){{-2, 0, 4}}, 1, COL_BLUE, 10);
-	out_scene->objects[1] = new_sphere((cl_float3){{2, 0,  4}}, 1, COL_GREEN, 500);
+	out_scene->objects[1] = new_sphere((cl_float3){{-2, 0, 4}}, 1, COL_BLUE, 10);
+	out_scene->objects[2] = new_sphere((cl_float3){{2, 0,  4}}, 1, COL_GREEN, 500);
 	out_scene->objects[3] = new_sphere((cl_float3){{0, -5001, 0}}, 5000, COL_YELLOW, 1000);
-//	out_scene->objects[4] = new_cylinder((cl_float3) {{5, 0, 0}}, 1, 10,
-//										 COL_PURPLE, 200);
-//	out_scene->objects[4] = new_plane((cl_float3){{0, 0, 0}}, (cl_float3){{2, 0, 0.1}}, COL_WHITE, 500);
-	out_scene->objects[4] = new_cone((cl_float3){{5, 0, 0}}, 1, (cl_float3){{1, 0, 0}}, (cl_float2){{2, 3}}, M_PI_4, COL_PURPLE, 200);
+	out_scene->objects[4] = new_cylinder((cl_float3) {{5, 0, 0}}, 1, 10, COL_PURPLE, 200);
+//	out_scene->objects[5] = new_plane((cl_float3){{0, 0, 0}}, (cl_float3){{2, 0, 0.1}}, COL_WHITE, 500);
+//	out_scene->objects[6] = new_cone((cl_float3){{5, 0, 0}}, 1, (cl_float3){{1, 0, 0}}, (cl_float2){{2, 3}}, M_PI_4, COL_PURPLE, 200);
 
 	out_scene->lights_nbr = 3;
-	if (!(out_scene->lights = malloc(sizeof(t_light) * out_scene->obj_nbr)))
+	if (!(out_scene->lights = malloc(sizeof(t_light) * out_scene->lights_nbr)))
 		raise_error(ERR_MALLOC);
 	out_scene->lights[0] = (t_light){AMBIENT, 0.2, {}, {}};
 	out_scene->lights[1] = (t_light){POINT, 0.5, {{0, 1, 2}}, {}};
