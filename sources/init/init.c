@@ -47,7 +47,7 @@ void		init_scene(t_scene *out_scene)
 	out_scene->objects[1] = new_plane((cl_float3){{0, 0, 0}}, (cl_float3){{0, 1, 0}}, COL_WHITE, 500);
 
 	out_scene->lights_nbr = 3;
-	if (!(out_scene->lights = malloc(sizeof(t_light) * out_scene->obj_nbr)))
+	if (!(out_scene->lights = malloc(sizeof(t_light) * out_scene->lights_nbr)))
 		raise_error(ERR_MALLOC);
 	out_scene->lights[0] = (t_light){AMBIENT, 0.2, {}, {}};
 	out_scene->lights[1] = (t_light){POINT, 0.5, {{0, 1, 2}}, {}};
