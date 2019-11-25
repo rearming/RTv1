@@ -13,10 +13,11 @@
 
 # define WIN_TITLE "Dota 4"
 
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1080
-# define WIN_RATIO WIN_WIDTH / WIN_HEIGHT
-
+# define WIN_WIDTH 2000
+# define WIN_HEIGHT 1000
+# define WIN_RATIO (float)WIN_WIDTH / WIN_HEIGHT
+# define D_E_KARMATSKIY (((float)WIN_HEIGHT/ WIN_WIDTH) * ((float)WIN_HEIGHT/ WIN_WIDTH))
+# define D_I_MAZOHIN (((float)WIN_WIDTH/ WIN_HEIGHT) * ((float)WIN_WIDTH/ WIN_HEIGHT))
 # define SCALE_WIDTH 1
 # define SCALE_HEIGHT 1
 

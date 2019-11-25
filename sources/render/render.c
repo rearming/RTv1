@@ -19,6 +19,8 @@ cl_float3			compute_normal(cl_float3 point, t_object intersect_obj)
 {
 	if (intersect_obj.type == SPHERE)
 		return (vec_normalize(vec_subtract(point, intersect_obj.center)));
+	else if (intersect_obj.type == PLANE)
+		return (intersect_obj.normal);
 	return ((cl_float3){.x = 0, .y = 0, .z = 0});
 }
 

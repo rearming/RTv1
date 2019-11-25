@@ -34,13 +34,14 @@ t_object	new_sphere(
 
 void		init_scene(t_scene *out_scene)
 {
-	out_scene->obj_nbr = 4;
+	out_scene->obj_nbr = 5;
 	if (!(out_scene->objects = malloc(sizeof(t_object) * (out_scene->obj_nbr))))
 		raise_error(ERR_MALLOC);
 	out_scene->objects[0] = new_sphere((cl_float3){{0, -1, 3}}, 1, COL_RED, 500);
 	out_scene->objects[2] = new_sphere((cl_float3){{-2, 0, 4}}, 1, COL_BLUE, 10);
 	out_scene->objects[1] = new_sphere((cl_float3){{2, 0,  4}}, 1, COL_GREEN, 500);
 	out_scene->objects[3] = new_sphere((cl_float3){{0, -5001, 0}}, 5000, COL_YELLOW, 1000);
+	out_scene->objects[4] = new_plane((cl_float3){{0, 0, 0}}, (cl_float3){{2, 0, 0.1}}, COL_WHITE, 500);
 
 	out_scene->lights_nbr = 3;
 	if (!(out_scene->lights = malloc(sizeof(t_light) * out_scene->obj_nbr)))
@@ -67,11 +68,12 @@ void		init_rtv1(t_rtv1 *out_rtv1)
 	init_scene(&out_rtv1->scene);
 	init_events(&out_rtv1->events);
 
-	out_rtv1->camera = (t_camera){
-			.pos = (cl_float3){{0, 1, 0}},
-			.rotation = (cl_float3){{0, 0, 0}},
-			.viewport_distance = 1,
-			.viewport_width = 1,
-			.viewport_height = (float)WIN_HEIGHT / WIN_WIDTH
+	out_rtv1->camera = (t_camera)
+	{
+		.pos = (cl_float3){{0, 1, 0}},
+		.rotation = (cl_float3){{0, 0, 0}},
+		.viewport_distance = 1,
+		.viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1,
+		.viewport_height = WIN_RATIO > 1 ? D_E_KARMATSKIY : 1
 	};
 }
