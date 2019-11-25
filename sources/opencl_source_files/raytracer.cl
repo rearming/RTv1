@@ -1,7 +1,7 @@
 #define DD dot(ray_dir, ray_dir)
 #define DX dot(ray_dir, origin_center)
-#define DV(obj) dot(ray_dir, obj->center)
-#define XV(obj) dot(origin_center, obj->center)
+#define DV(obj) dot(ray_dir, obj->cylinder_axis)
+#define XV(obj) dot(origin_center, obj->cylinder_axis)
 #define XX dot(origin_center, origin_center)
 #define SQR(x) x*x
 
@@ -74,21 +74,50 @@ void			ray_cone_intersect(
 		float *out_x2)
 {
 		float 			a, b, c, discriminant;
-		const float 	k2 = SQR(cone->angle) + 1;
+		const float 	k2 = SQR(tan(cone->angle)) + 1.f;
 		const float3	origin_center = camera_pos - cone->center;
 
-		a = dot(ray_dir, ray_dir) - k2 * SQR(dot(ray_dir, cone->normal));
-		b = dot(origin_center, ray_dir) - k2 * dot(ray_dir, cone->normal) * dot(origin_center, cone->normal);
-		c = dot(origin_center, origin_center) - k2 * SQR(dot(origin_center, cone->normal));
+//		a = dot(ray_dir, ray_dir) - k2 * SQR(dot(ray_dir, cone->normal));
+//		b = dot(ray_dir, origin_center) - k2 * dot(ray_dir, cone->normal) * dot(origin_center, cone->normal);
+//		c = dot(origin_center, origin_center) - k2 * SQR(dot(origin_center, cone->normal));
 
-		discriminant = b * b - 4 * a * c;
+		a = DD - k2 * SQR(DV(cone));
+		b = DX - k2 * (DV(cone) * XV(cone));
+		c = XX - k2 * SQR(XV(cone));
+
+		discriminant = b * b - 4.f * a * c;
 		if (discriminant < 0)
 			return ;
 		float sqrt_discriminant = sqrt(discriminant);
 
-		*out_x1 = (-b + sqrt_discriminant) / (2 * a);
-		*out_x2 = (-b - sqrt_discriminant) / (2 * a);
+		*out_x1 = (-b + sqrt_discriminant) / (2.f * a);
+		*out_x2 = (-b - sqrt_discriminant) / (2.f * a);
 }
+
+//void			ray_cone_intersect(
+//		float3 camera_pos,
+//		float3 ray_dir,
+//		__constant t_object *cone,
+//float *out_x1,
+//float *out_x2)
+//{
+//float 			a, b, c, discriminant;
+//const float 	k2 = SQR(cone->angle) + 1.f;
+//const float3	origin_center = camera_pos - cone->center;
+//
+//a = SQR(dot(ray_dir, cone->normal)) - SQR(cos(cone->angle));
+//b = 2.f * (dot(ray_dir, cone->normal) * dot(origin_center, cone->normal) - dot(ray_dir, origin_center) * SQR(cos(cone->angle)));
+//c = SQR(dot(origin_center, cone->normal)) - dot(origin_center, origin_center) * SQR(cos(cone->angle));
+//
+//
+//discriminant = b * b - 4.f * a * c;
+//if (discriminant < 0)
+//return ;
+//float sqrt_discriminant = sqrt(discriminant);
+//
+//*out_x1 = (-b + sqrt_discriminant) / (2.f * a);
+//*out_x2 = (-b - sqrt_discriminant) / (2.f * a);
+//}
 
 float3			compute_normal(float3 point, __constant t_object *intersect_obj)
 {

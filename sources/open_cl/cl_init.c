@@ -17,7 +17,8 @@ void		cl_init(t_rtv1 *rtv1)
 	char		*cl_file;
 	size_t		size;
 
-	if ((err = clGetPlatformIDs(1, &rtv1->cl.platform_id, &rtv1->cl.ret_num_platforms)))
+	err = clGetPlatformIDs(1, &rtv1->cl.platform_id, &rtv1->cl.ret_num_platforms);
+	if (err)
 		raise_error(ERR_OPENCL_GET_PLATFORM_ID);
 	if ((err = clGetDeviceIDs(rtv1->cl.platform_id, CL_DEVICE_TYPE_GPU, 1,
 			&rtv1->cl.device_id, &rtv1->cl.ret_num_devices)))

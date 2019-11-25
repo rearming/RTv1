@@ -40,7 +40,8 @@ new_cylinder(cl_float3 center, cl_float radius, cl_float len, int color,
 
 	cylinder.type = CYLINDER;
 	cylinder.center = center;
-	cylinder.cylinder_axis = (cl_float3){{1, 1, 1}}; //todo remove kostil'
+	cylinder.cylinder_axis = (cl_float3){{0, 1, 0}}; //todo remove kostil'
+	cylinder.cylinder_axis = vec_normalize(cylinder.cylinder_axis);
 	cylinder.len = len; //todo wtf
 	cylinder.radius = radius;
 	cylinder.material.color.value = color;
@@ -56,7 +57,8 @@ t_object new_cone(cl_float3 center, float radius, cl_float3 normal_vector,
 	cone.type = CONE;
 	cone.center = center;
 	cone.radius = radius;
-	cone.normal = normal_vector;
+	cone.cylinder_axis = normal_vector;
+	cone.cylinder_axis = vec_normalize(cone.cylinder_axis);
 	cone.cone_min_max = cone_min_max;
 	cone.angle = angle;
 	cone.material.color.value = color;
