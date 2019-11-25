@@ -12,7 +12,7 @@ void		add_key_event(t_events *events, SDL_Scancode scancode)
 		events->d = TRUE;
 	if (scancode == SDL_SCANCODE_SPACE)
 		events->space = TRUE;
-	if (scancode == SDL_SCANCODE_LSHIFT)
+	if (scancode == SDL_SCANCODE_X)
 		events->lshift = TRUE;
 }
 
@@ -28,7 +28,7 @@ void		remove_key_event(t_events *events, SDL_Scancode scancode)
 		events->d = FALSE;
 	if (scancode == SDL_SCANCODE_SPACE)
 		events->space = FALSE;
-	if (scancode == SDL_SCANCODE_LSHIFT)
+	if (scancode == SDL_SCANCODE_X)
 		events->lshift = FALSE;
 }
 

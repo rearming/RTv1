@@ -32,19 +32,17 @@ int specularity) {
  * vector determines start and end of cylinder
 */
 
-t_object	new_cylinder(
-		cl_float3 center,
-		float radius,
-		cl_float3 normal_vector,
-		int color,
-		int specularity)
+t_object
+new_cylinder(cl_float3 center, cl_float radius, cl_float len, int color,
+			 int specularity)
 {
 	t_object cylinder;
 
 	cylinder.type = CYLINDER;
 	cylinder.center = center;
+	cylinder.cylinder_axis = (cl_float3){{1, 1, 1}}; //todo remove kostil'
+	cylinder.len = len; //todo wtf
 	cylinder.radius = radius;
-	cylinder.normal = normal_vector;
 	cylinder.material.color.value = color;
 	cylinder.material.specularity = specularity;
 	return (cylinder);

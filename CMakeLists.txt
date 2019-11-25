@@ -3,10 +3,10 @@ project(RTv1 C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_compile_options(-Wall -Wextra -Werror)
+add_compile_options(-Wall -Wextra)
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    add_compile_options(-O2)
+    add_compile_options(-O2 -Werror)
 endif()
 
 # <----RTv1 compile---->

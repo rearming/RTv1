@@ -52,8 +52,9 @@ void		ray_sphere_intersect(t_rtv1 *rtv1, cl_float3 ray_dir,
 
 t_object	new_plane(cl_float3 dot, cl_float3 normal_vector,
 		int color, int specularity);
-t_object	new_cylinder(cl_float3 center, float radius, cl_float3 normal_vector,
-		int color, int specularity);
+t_object
+new_cylinder(cl_float3 center, cl_float radius, cl_float len, int color,
+			 int specularity);
 t_object	new_cone(cl_float3 center, float radius, cl_float3 normal_vector,
 		cl_float2 cone_min_max, float angle, int color, int specularity);
 

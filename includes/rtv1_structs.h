@@ -162,6 +162,8 @@ typedef struct			s_object
 	float				angle;
 	cl_float2			cone_min_max;
 	cl_float3			center;
+	cl_float			len;
+	cl_float3			cylinder_axis;
 #  else
 	t_object_type		type;
 	float				radius;
@@ -170,6 +172,8 @@ typedef struct			s_object
 	float				angle;
 	float2				cone_min_max;
 	float3				center;
+	float				len;
+	float3				cylinder_axis;
 #  endif
 }						t_object;
 

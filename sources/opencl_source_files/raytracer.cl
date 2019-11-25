@@ -1,8 +1,8 @@
-#define DD(obj) dot(ray_dir, ray_dir)
-#define DX(obj) dot(origin_center, ray_dir)
-#define DV(obj) dot(ray_dir, obj->normal)
-#define XV(obj) dot(origin_center, obj->normal)
-#define XX(obj) dot(origin_center, origin_center)
+#define DD dot(ray_dir, ray_dir)
+#define DX dot(ray_dir, origin_center)
+#define DV(obj) dot(ray_dir, obj->center)
+#define XV(obj) dot(origin_center, obj->center)
+#define XX dot(origin_center, origin_center)
 #define SQR(x) x*x
 
 void			ray_plane_intersect(
@@ -32,30 +32,40 @@ void				ray_sphere_intersect(
 	c = dot(origin_center, origin_center) - sphere->radius * sphere->radius;
 	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
-	return ;
+		return ;
 	float sqrt_discriminant = sqrt(discriminant);
 
 	*out_x1 = (-b + sqrt_discriminant) / (2 * a);
 	*out_x2 = (-b - sqrt_discriminant) / (2 * a);
 }
 
-//
-//void			ray_cylinder_intersect(
-//		float3 camera_pos,
-//		float3 ray_dir,
-//		__constant t_object *cylinder,
-//		float *out_x1,
-//		float *out_x2)
-//{
-//	float 			a, b, c;
-//	const float3	origin_center = camera_pos - cylinder->center;
-//
-//	a = DD(*cylinder) - SQR(DV(*cylinder));
-//	b = (DX(*cylinder)) - DV(*cylinder) * XV(*cylinder)) * 2);
-//	c = XX - SQR((XV(*cylinder))) - SQR(cylinder->radius);
-//}
-//
-//
+
+void			ray_cylinder_intersect(
+		float3 camera_pos,
+		float3 ray_dir,
+		__constant t_object *cylinder,
+		float *out_x1,
+		float *out_x2)
+{
+	const float3	origin_center = camera_pos - cylinder->center;
+	float 			a, b, c, discriminant;
+
+	a = DD - SQR(DV(cylinder));
+	b = (DX - DV(cylinder) * XV(cylinder)) * 2;
+	c = XX - SQR(XV(cylinder)) - SQR(cylinder->radius);
+//	a = dot(ray_dir, ray_dir) - SQR(dot(ray_dir, cylinder->cylinder_axis));
+//	b = dot(ray_dir, origin_center) - dot(ray_dir, cylinder->cylinder_axis) * dot(origin_center, cylinder->cylinder_axis);
+//	c = dot(origin_center, origin_center) - SQR(dot(origin_center, cylinder->cylinder_axis)) - SQR(cylinder->radius);
+
+	discriminant = b * b - 4 * a * c;
+	if (discriminant < 0)
+		return ;
+	float sqrt_discriminant = sqrt(discriminant);
+
+	*out_x1 = (-b + sqrt_discriminant) / (2 * a);
+	*out_x2 = (-b - sqrt_discriminant) / (2 * a);
+}
+
 void			ray_cone_intersect(
 		float3 camera_pos,
 		float3 ray_dir,
@@ -63,13 +73,21 @@ void			ray_cone_intersect(
 		float *out_x1,
 		float *out_x2)
 {
-		float 			a, b, c;
+		float 			a, b, c, discriminant;
 		const float 	k2 = SQR(cone->angle) + 1;
 		const float3	origin_center = camera_pos - cone->center;
 
 		a = dot(ray_dir, ray_dir) - k2 * SQR(dot(ray_dir, cone->normal));
 		b = dot(origin_center, ray_dir) - k2 * dot(ray_dir, cone->normal) * dot(origin_center, cone->normal);
 		c = dot(origin_center, origin_center) - k2 * SQR(dot(origin_center, cone->normal));
+
+		discriminant = b * b - 4 * a * c;
+		if (discriminant < 0)
+			return ;
+		float sqrt_discriminant = sqrt(discriminant);
+
+		*out_x1 = (-b + sqrt_discriminant) / (2 * a);
+		*out_x2 = (-b - sqrt_discriminant) / (2 * a);
 }
 
 float3			compute_normal(float3 point, __constant t_object *intersect_obj)
@@ -88,14 +106,6 @@ void find_intersection(
 {
 	*out_intersect1 = INFINITY;
 	*out_intersect2 = INFINITY;
-//	if (object->type == SPHERE)
-//	{
-//		ray_sphere_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
-//	}
-//	else if (object->type = PLANE){
-//		ray_plane_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
-//	}
-
 	switch(object->type)
 	{
 		case (SPHERE):
@@ -104,12 +114,12 @@ void find_intersection(
 		case (PLANE):
 			ray_plane_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
 			break ;
-//		case (CYLINDER):
-//			ray_cylinder_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
-//			break ;
-//		case (CONE):
-//			ray_cone_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
-//			break ;
+		case (CYLINDER):
+			ray_cylinder_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
+			break ;
+		case (CONE):
+			ray_cone_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
+			break ;
 	}
 }
 

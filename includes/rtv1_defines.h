@@ -29,6 +29,7 @@
 # define COL_WHITE 0xFFFFFF
 # define COL_GREY 0x3A3635
 # define COL_BLACK 0x0
+# define COL_PURPLE 0x7830E0
 
 # define COL_BG COL_GREY
 
