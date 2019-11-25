@@ -3,10 +3,10 @@ project(RTv1 C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_compile_options(-Wall -Wextra)
+add_compile_options(-Wall -Wextra -Werror)
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    add_compile_options(-Werror -O2)
+    add_compile_options(-O2)
 endif()
 
 # <----RTv1 compile---->
@@ -35,7 +35,7 @@ set(sources
         sources/open_cl/cl_files_parser.c
         sources/open_cl/cl_render.c
         sources/open_cl/cl_memory_management.c
-        sources/math_utils/rotation.c)
+        sources/math_utils/rotation.c sources/init/primitives.c)
 
 link_directories(
         libft

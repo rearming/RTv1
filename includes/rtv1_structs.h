@@ -158,11 +158,17 @@ typedef struct			s_object
 	t_object_type		type;
 	cl_float			radius;
 	t_material			material;
+	cl_float3			normal;
+	float				angle;
+	cl_float2			cone_min_max;
 	cl_float3			center;
 #  else
 	t_object_type		type;
 	float				radius;
 	t_material			material;
+	float3				normal;
+	float				angle;
+	float2				cone_min_max;
 	float3				center;
 #  endif
 }						t_object;

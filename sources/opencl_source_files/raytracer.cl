@@ -1,3 +1,22 @@
+#define DD(obj) dot(ray_dir, ray_dir)
+#define DX(obj) dot(origin_center, ray_dir)
+#define DV(obj) dot(ray_dir, obj->normal)
+#define XV(obj) dot(origin_center, obj->normal)
+#define XX(obj) dot(origin_center, origin_center)
+#define SQR(x) x*x
+
+void			ray_plane_intersect(
+		float3 camera_pos,
+		float3 ray_dir,
+		__constant t_object *plane,
+		float *out_x1,
+		float *out_x2)
+{
+		const float3	origin_center = camera_pos - plane->center;
+
+		*out_x1 = (-dot(origin_center, plane->normal)) / dot(ray_dir, plane->normal);
+}
+
 void				ray_sphere_intersect(
 		float3 camera_pos,
 		float3 ray_dir,
@@ -20,6 +39,39 @@ void				ray_sphere_intersect(
 	*out_x2 = (-b - sqrt_discriminant) / (2 * a);
 }
 
+//
+//void			ray_cylinder_intersect(
+//		float3 camera_pos,
+//		float3 ray_dir,
+//		__constant t_object *cylinder,
+//		float *out_x1,
+//		float *out_x2)
+//{
+//	float 			a, b, c;
+//	const float3	origin_center = camera_pos - cylinder->center;
+//
+//	a = DD(*cylinder) - SQR(DV(*cylinder));
+//	b = (DX(*cylinder)) - DV(*cylinder) * XV(*cylinder)) * 2);
+//	c = XX - SQR((XV(*cylinder))) - SQR(cylinder->radius);
+//}
+//
+//
+void			ray_cone_intersect(
+		float3 camera_pos,
+		float3 ray_dir,
+		__constant t_object *cone,
+		float *out_x1,
+		float *out_x2)
+{
+		float 			a, b, c;
+		const float 	k2 = SQR(cone->angle) + 1;
+		const float3	origin_center = camera_pos - cone->center;
+
+		a = dot(ray_dir, ray_dir) - k2 * SQR(dot(ray_dir, cone->normal));
+		b = dot(origin_center, ray_dir) - k2 * dot(ray_dir, cone->normal) * dot(origin_center, cone->normal);
+		c = dot(origin_center, origin_center) - k2 * SQR(dot(origin_center, cone->normal));
+}
+
 float3			compute_normal(float3 point, __constant t_object *intersect_obj)
 {
 	if (intersect_obj->type == SPHERE)
@@ -36,9 +88,28 @@ void find_intersection(
 {
 	*out_intersect1 = INFINITY;
 	*out_intersect2 = INFINITY;
-	if (object->type == SPHERE)
+//	if (object->type == SPHERE)
+//	{
+//		ray_sphere_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
+//	}
+//	else if (object->type = PLANE){
+//		ray_plane_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
+//	}
+
+	switch(object->type)
 	{
-		ray_sphere_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
+		case (SPHERE):
+			ray_sphere_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
+			break ;
+		case (PLANE):
+			ray_plane_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
+			break ;
+//		case (CYLINDER):
+//			ray_cylinder_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
+//			break ;
+//		case (CONE):
+//			ray_cone_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
+//			break ;
 	}
 }
 
