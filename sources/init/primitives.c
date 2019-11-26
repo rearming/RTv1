@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "rtv1.h"
 
 t_object	new_plane(
@@ -32,17 +31,22 @@ int specularity) {
  * vector determines start and end of cylinder
 */
 
-t_object
-new_cylinder(cl_float3 center, cl_float radius, cl_float len, int color,
-			 int specularity)
+t_object new_cylinder(
+		cl_float3 center,
+		cl_float3 rotation,
+		cl_float radius,
+		cl_float len,
+		int color,
+		int specularity)
 {
 	t_object cylinder;
 
 	cylinder.type = CYLINDER;
 	cylinder.center = center;
-	cylinder.cylinder_axis = (cl_float3){{0, 1, 0}}; //todo remove kostil'
-	cylinder.cylinder_axis = vec_normalize(cylinder.cylinder_axis);
-	cylinder.len = len; //todo wtf
+	center = vec_add(center, (cl_float3){{center.x, center.y + 1, center.z}});
+	rotate_point(&center, rotation);
+	cylinder.cylinder_axis = vec_normalize(center);
+	cylinder.len = len; //todo len
 	cylinder.radius = radius;
 	cylinder.material.color.value = color;
 	cylinder.material.specularity = specularity;

@@ -5,9 +5,11 @@
 # define SIDE_MOVE_SPEED 0.1
 # define FLY_SPEED 0.2
 
-# define ROTATION_SPEED 0.001
+# define ROTATION_SPEED 0.05
 
-# define NOT_SET -1
+# define M_PI_180 (M_PI / 180)
+
+# define NOT_SET (-1)
 # define TRUE 1
 # define FALSE 0
 

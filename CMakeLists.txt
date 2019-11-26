@@ -35,7 +35,7 @@ set(sources
         sources/open_cl/cl_files_parser.c
         sources/open_cl/cl_render.c
         sources/open_cl/cl_memory_management.c
-        sources/math_utils/rotation.c sources/init/primitives.c)
+        sources/math_utils/rotation.c sources/init/primitives.c sources/hooks/event_processing.c)
 
 link_directories(
         libft

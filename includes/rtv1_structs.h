@@ -200,6 +200,7 @@ typedef struct			s_events
 	t_bool				a;
 	t_bool				s;
 	t_bool				d;
+	t_bool				info;
 	t_bool				space;
 	t_bool				lshift;
 }						t_events;

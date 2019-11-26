@@ -2,6 +2,7 @@ void		rotate_y(float3 *point, float angle);
 void		rotate_x(float3 *point, float angle);
 void		rotate_z(float3 *point, float angle);
 void		rotate_point(float3 *point, float3 angle);
+float3		degree_to_rad(float3 rotation_degrees);
 
 float				compute_lighting(
 		__constant t_scene *scene,

@@ -16,5 +16,6 @@ void				rotate_y(cl_float3 *point, double angle);
 void				rotate_x(cl_float3 *point, double angle);
 void				rotate_z(cl_float3 *point, double angle);
 void				rotate_point(cl_float3 *point, cl_float3 angle);
+cl_float3			degree_to_rad(cl_float3 rotation_degrees);
 
 #endif

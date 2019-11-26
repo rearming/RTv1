@@ -28,6 +28,7 @@ void		init_rtv1(t_rtv1 *out_rtv1);
 ** Hooks
 */
 
+void		process_event(SDL_Event *event, t_rtv1 *rtv1);
 int			key_press(int keycode, void *param);
 int			cross_close(void *param);
 
@@ -53,8 +54,8 @@ void		ray_sphere_intersect(t_rtv1 *rtv1, cl_float3 ray_dir,
 t_object	new_plane(cl_float3 dot, cl_float3 normal_vector,
 		int color, int specularity);
 t_object
-new_cylinder(cl_float3 center, cl_float radius, cl_float len, int color,
-			 int specularity);
+new_cylinder(cl_float3 center, cl_float3 rotation, cl_float radius, cl_float len,
+			 int color, int specularity);
 t_object	new_cone(cl_float3 center, float radius, cl_float3 normal_vector,
 		cl_float2 cone_min_max, float angle, int color, int specularity);
 

@@ -119,13 +119,6 @@ void			ray_cone_intersect(
 //*out_x2 = (-b - sqrt_discriminant) / (2.f * a);
 //}
 
-float3			compute_normal(float3 point, __constant t_object *intersect_obj)
-{
-	if (intersect_obj->type == SPHERE)
-		return (normalize(point - intersect_obj->center));
-	return (float3)(0, 0, 0);
-}
-
 void find_intersection(
 		float3 origin,
 		float3 ray_dir,
@@ -230,9 +223,7 @@ __kernel void		raytracer(
 	y = -y;
 
 	float3 ray_dir = canvas_to_viewport(camera, (float3)(x, y, 0));
-//	printf("ray_dir: x: %.3f, y: %.3f, z: %.3f before\n", ray_dir.x, ray_dir.y, ray_dir.z);
 	rotate_point(&ray_dir, camera->rotation);
-//	printf("ray_dir: x: %.3f, y: %.3f, z: %.3f after\n", ray_dir.x, ray_dir.y, ray_dir.z);
 	result_color.value = trace_ray(scene, camera->pos, objects, lights, ray_dir, camera->viewport_distance, INFINITY);
 	img_data[g_id] = result_color.value;
 }

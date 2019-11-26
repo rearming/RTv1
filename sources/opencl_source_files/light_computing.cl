@@ -15,6 +15,18 @@ float				compute_glare(
 	return result_intensity;
 }
 
+float3			compute_normal(float3 point, __constant t_object *intersect_obj)
+{
+	if (intersect_obj->type == SPHERE)
+		return normalize(point - intersect_obj->center);
+	else if (intersect_obj->type == PLANE)
+		return intersect_obj->normal;
+	else if (intersect_obj->type == CYLINDER)
+		return normalize((point - intersect_obj->center)
+			- (dot(intersect_obj->cylinder_axis, (point - intersect_obj->center))) * intersect_obj->cylinder_axis);
+	return (float3)(0, 0, 0);
+}
+
 int					in_shadow(
 		__constant t_scene *scene,
 		__constant t_object *objects,

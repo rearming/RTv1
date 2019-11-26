@@ -39,8 +39,19 @@ void		rotate_z(cl_float3 *point, double angle)
 	point->y = temp.x * sin(angle) + point->y * cos(angle);
 }
 
+cl_float3	degree_to_rad(cl_float3 rotation_degrees)
+{
+	cl_float3	radians;
+
+	radians.x = rotation_degrees.x * M_PI_180;
+	radians.y = rotation_degrees.y * M_PI_180;
+	radians.z = rotation_degrees.z * M_PI_180;
+	return (radians);
+}
+
 void		rotate_point(cl_float3 *point, cl_float3 angle)
 {
+	angle = degree_to_rad(angle);
 	rotate_x(point, angle.x);
 	rotate_y(point, angle.y);
 	rotate_z(point, angle.z);
