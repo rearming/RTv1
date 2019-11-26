@@ -13,10 +13,11 @@
 #include "rtv1.h"
 
 t_object	new_plane(
-cl_float3 dot,
-cl_float3 normal_vector,
-int color,
-int specularity) {
+		cl_float3 dot,
+		cl_float3 normal_vector,
+		int color,
+		int specularity)
+{
 	t_object plane;
 
 	plane.type = PLANE;

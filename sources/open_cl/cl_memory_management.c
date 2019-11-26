@@ -1,5 +1,9 @@
 #include "rtv1.h"
 
+/*
+** (1 << 2) is CL_MEM_READ_ONLY, well fuck norme =)
+*/
+
 void		cl_set_kernel(t_rtv1 *rtv1, t_opencl *cl)
 {
 	int		err;
@@ -29,7 +33,7 @@ void		cl_set_kernel(t_rtv1 *rtv1, t_opencl *cl)
 void		cl_clean_memobjs(t_opencl *cl)
 {
 	clReleaseMemObject(cl->scene); //todo каждый раз не очищать сцену если нет на то причин
-	clReleaseMemObject(cl->camera); // то же самое с камерой
+	clReleaseMemObject(cl->camera);
 	clReleaseMemObject(cl->img_data);
 	cl->scene = NULL;
 	cl->camera = NULL;

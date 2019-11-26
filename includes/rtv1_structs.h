@@ -5,26 +5,32 @@ typedef unsigned int	t_bool;
 
 typedef struct			s_rgb
 {
-#ifndef FT_OPENCL___
+# ifndef FT_OPENCL___
+
 	cl_uchar			r;
 	cl_uchar			g;
 	cl_uchar			b;
 	cl_uchar			a;
-#else
+# else
+
 	unsigned char		r;
 	unsigned char		g;
 	unsigned char		b;
 	unsigned char		a;
-#endif
+# endif
+
 }						t_rgb;
 
-typedef union 			u_color
+typedef union			u_color
 {
-#ifndef FT_OPENCL___
+# ifndef FT_OPENCL___
+
 	cl_int			value;
-#else
+# else
+
 	int				value;
-#endif
+# endif
+
 	t_rgb			rgb;
 }						t_color;
 
@@ -44,6 +50,7 @@ typedef struct			s_point
 }						t_point;
 
 # ifndef FT_OPENCL___
+
 typedef struct			s_sdl
 {
 	SDL_Window			*win;
@@ -93,19 +100,22 @@ typedef struct			s_line
 
 typedef struct			s_camera
 {
-#  ifndef FT_OPENCL___
+# ifndef FT_OPENCL___
+
 	cl_float			viewport_width;
 	cl_float			viewport_height;
 	cl_float			viewport_distance;
 	cl_float3			pos;
 	cl_float3			rotation;
-#  else
+# else
+
 	float				viewport_width;
 	float				viewport_height;
 	float				viewport_distance;
 	float3				pos;
 	float3				rotation;
-#  endif
+# endif
+
 }						t_camera;
 
 /*
@@ -129,32 +139,39 @@ typedef enum		e_light_type
 
 typedef struct			s_light
 {
-#  ifndef FT_OPENCL___
+# ifndef FT_OPENCL___
+
 	t_light_type		type;
 	cl_float			intensity;
 	cl_float3			pos;
 	cl_float3			dir;
-#  else
+# else
+
 	t_light_type		type;
 	float				intensity;
 	float3				pos;
 	float3				dir;
-#  endif
+# endif
+
 }						t_light;
 
 typedef struct			s_material
 {
 	t_color				color;
-#ifndef FT_OPENCL___
+# ifndef FT_OPENCL___
+
 	cl_int				specularity;
-#else
+# else
+
 	int					specularity;
-#endif
+# endif
+
 }						t_material;
 
 typedef struct			s_object
 {
-#  ifndef FT_OPENCL___
+# ifndef FT_OPENCL___
+
 	t_object_type		type;
 	cl_float			radius;
 	t_material			material;
@@ -164,7 +181,8 @@ typedef struct			s_object
 	cl_float3			center;
 	cl_float			len;
 	cl_float3			cylinder_axis;
-#  else
+# else
+
 	t_object_type		type;
 	float				radius;
 	t_material			material;
@@ -174,22 +192,26 @@ typedef struct			s_object
 	float3				center;
 	float				len;
 	float3				cylinder_axis;
-#  endif
+# endif
+
 }						t_object;
 
 typedef struct			s_scene
 {
-#ifndef FT_OPENCL___
+# ifndef FT_OPENCL___
+
 	cl_int				obj_nbr;
 	cl_int				lights_nbr;
 	t_object			*objects;
 	t_light				*lights;
-#else
+# else
+
 	int					obj_nbr;
 	int					lights_nbr;
 	t_object			*objects;
 	t_light				*lights;
-#endif
+# endif
+
 }						t_scene;
 
 # ifndef FT_OPENCL___
@@ -215,7 +237,7 @@ typedef struct			s_rtv1
 	t_scene				scene;
 }						t_rtv1;
 
-# define CL_BUFF_SIZE 10000
+#  define CL_BUFF_SIZE 10000
 
 typedef struct			s_cl_gnl
 {

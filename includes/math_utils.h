@@ -3,7 +3,7 @@
 
 # include "rtv1.h"
 
-int 				in_range_inclusive(float number, float min, float max);
+int					in_range_inclusive(float number, float min, float max);
 
 float				dot_product(cl_float3 vec1, cl_float3 vec2);
 cl_float3			vec_subtract(cl_float3 vec1, cl_float3 vec2);

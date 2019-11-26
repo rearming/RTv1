@@ -48,16 +48,28 @@ void		render_cpu(t_rtv1 *rtv1);
 ** Raytracing objects
 */
 
-void		ray_sphere_intersect(t_rtv1 *rtv1, cl_float3 ray_dir,
-		const t_object sphere, float *out_x1, float *out_x2);
+t_object	new_plane(
+		cl_float3 dot,
+		cl_float3 normal_vector,
+		int color,
+		int specularity);
 
-t_object	new_plane(cl_float3 dot, cl_float3 normal_vector,
-		int color, int specularity);
-t_object
-new_cylinder(cl_float3 center, cl_float3 rotation, cl_float radius, cl_float len,
-			 int color, int specularity);
-t_object	new_cone(cl_float3 center, float radius, cl_float3 normal_vector,
-		cl_float2 cone_min_max, float angle, int color, int specularity);
+t_object	new_cylinder(
+		cl_float3 center,
+		cl_float3 rotation,
+		cl_float radius,
+		cl_float len,
+		int color,
+		int specularity);
+
+t_object	new_cone(
+		cl_float3 center,
+		float radius,
+		cl_float3 normal_vector,
+		cl_float2 cone_min_max,
+		float angle,
+		int color,
+		int specularity);
 
 /*
 ** Render utils
@@ -73,7 +85,7 @@ cl_float3	canvas_to_viewport(t_rtv1 *rtv1, cl_float3 canvas_point);
 */
 
 void		sdl_clean(t_rtv1 *rtv1);
-void		sdl_exit(t_rtv1 *rtv1);
+void		exit_clean(t_rtv1 *rtv1);
 void		sdl_loop(t_rtv1 *rtv1);
 
 /*
@@ -89,11 +101,17 @@ void		render_gpu(t_rtv1 *rtv1);
 void		cl_set_kernel(t_rtv1 *rtv1, t_opencl *cl);
 void		cl_clean_memobjs(t_opencl *cl);
 
-
 /*
 **	Error management
 */
 
 void		raise_error(int err_code);
+
+/*
+**	Debug
+*/
+
+void		print_vector(cl_float3 vec);
+void		print_debug_info(t_rtv1 *rtv1);
 
 #endif

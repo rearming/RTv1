@@ -20,22 +20,21 @@ set(sources
         sources/main.c
         sources/error.c
         sources/init/init.c
+        sources/init/primitives.c
         sources/hooks/moves.c
-        sources/SDL_utils/sdl_clean.c
+        sources/hooks/event_processing.c
         sources/SDL_utils/sdl_loop.c
-        sources/SDL_utils/sdl_exit.c
-        sources/render/bresenham.c
-        sources/render/render_utils.c
-        sources/render/ray_sphere_intersect.c
-        sources/render/render.c
+        sources/exit_clean.c
         sources/math_utils/vector_math.c
         sources/math_utils/math_utils.c
+        sources/math_utils/rotation.c
         sources/open_cl/cl_gnl.c
         sources/open_cl/cl_init.c
         sources/open_cl/cl_files_parser.c
         sources/open_cl/cl_render.c
         sources/open_cl/cl_memory_management.c
-        sources/math_utils/rotation.c sources/init/primitives.c sources/hooks/event_processing.c)
+        sources/render/render.c
+        sources/open_cl/cl_debug_info.c sources/math_utils/vector_math2.c)
 
 link_directories(
         libft

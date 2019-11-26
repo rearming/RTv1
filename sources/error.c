@@ -1,7 +1,21 @@
 #include "rtv1_errors.h"
 #include "libft.h"
 
-void	raise_error(int err_code)
+static void		raise_error2(int err_code)
+{
+	if (err_code == ERR_OPENCL_BUILD_PROGRAM)
+		ft_printf_fd(STDERR_FILENO, "clBuildProgram failed\n");
+	else if (err_code == ERR_OPENCL_CREATE_KERNEL)
+		ft_printf_fd(STDERR_FILENO, "clCreateKernel failed\n");
+	else if (err_code == ERR_OPENCL_CREATE_BUFFER)
+		ft_printf_fd(STDERR_FILENO, "clCreateBuffer failed\n");
+	else if (err_code == ERR_OPENCL_SETARG)
+		ft_printf_fd(STDERR_FILENO, "clSetKernelArg failed\n");
+	else
+		ft_printf_fd(STDERR_FILENO, "UNKNOWN ERROR!\n");
+}
+
+void			raise_error(int err_code)
 {
 	if (err_code == ERR_SDL_INIT)
 		ft_printf_fd(STDERR_FILENO, "SDL_Init failed.\n");
@@ -25,15 +39,6 @@ void	raise_error(int err_code)
 		ft_printf_fd(STDERR_FILENO, "clCreateCommandQueue failed\n");
 	else if (err_code == ERR_OPENCL_CREATE_PROGRAM)
 		ft_printf_fd(STDERR_FILENO, "clCreateProgramWithSource failed\n");
-	else if (err_code == ERR_OPENCL_BUILD_PROGRAM)
-		ft_printf_fd(STDERR_FILENO, "clBuildProgram failed\n");
-	else if (err_code == ERR_OPENCL_CREATE_KERNEL)
-		ft_printf_fd(STDERR_FILENO, "clCreateKernel failed\n");
-	else if (err_code == ERR_OPENCL_CREATE_BUFFER)
-		ft_printf_fd(STDERR_FILENO, "clCreateBuffer failed\n");
-	else if (err_code == ERR_OPENCL_SETARG)
-		ft_printf_fd(STDERR_FILENO, "clSetKernelArg failed\n");
-	else
-		ft_printf_fd(STDERR_FILENO, "UNKNOWN ERROR!\n");
+	raise_error2(err_code);
 	exit(err_code);
 }
