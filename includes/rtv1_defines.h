@@ -32,6 +32,7 @@
 # define COL_GREY 0x3A3635
 # define COL_BLACK 0x0
 # define COL_PURPLE 0x7830E0
+# define COL_MAGNETA 0xE2007A
 
 # define COL_BG COL_GREY
 

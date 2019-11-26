@@ -46,7 +46,7 @@ t_object new_cylinder(
 	center = vec_add(center, (cl_float3){{center.x, center.y + 1, center.z}});
 	rotate_point(&center, rotation);
 	cylinder.cylinder_axis = vec_normalize(center);
-	cylinder.len = len; //todo len
+	cylinder.len = len;
 	cylinder.radius = radius;
 	cylinder.material.color.value = color;
 	cylinder.material.specularity = specularity;

@@ -8,13 +8,14 @@
 void			ray_plane_intersect(
 		float3 camera_pos,
 		float3 ray_dir,
-		__constant t_object *plane,
+		float3 center,
+		float3 normal,
 		float *out_x1,
 		float *out_x2)
 {
-		const float3	origin_center = camera_pos - plane->center;
+		const float3	origin_center = camera_pos - center;
 
-		*out_x1 = (-dot(origin_center, plane->normal)) / dot(ray_dir, plane->normal);
+		*out_x1 = (-dot(origin_center, normal)) / dot(ray_dir, normal);
 }
 
 void				ray_sphere_intersect(
@@ -51,11 +52,8 @@ void			ray_cylinder_intersect(
 	float 			a, b, c, discriminant;
 
 	a = DD - SQR(DV(cylinder));
-	b = (DX - DV(cylinder) * XV(cylinder)) * 2;
+	b = 2 * (DX - DV(cylinder) * XV(cylinder));
 	c = XX - SQR(XV(cylinder)) - SQR(cylinder->radius);
-//	a = dot(ray_dir, ray_dir) - SQR(dot(ray_dir, cylinder->cylinder_axis));
-//	b = dot(ray_dir, origin_center) - dot(ray_dir, cylinder->cylinder_axis) * dot(origin_center, cylinder->cylinder_axis);
-//	c = dot(origin_center, origin_center) - SQR(dot(origin_center, cylinder->cylinder_axis)) - SQR(cylinder->radius);
 
 	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
@@ -64,6 +62,15 @@ void			ray_cylinder_intersect(
 
 	*out_x1 = (-b + sqrt_discriminant) / (2 * a);
 	*out_x2 = (-b - sqrt_discriminant) / (2 * a);
+
+	float m1 = dot(ray_dir, cylinder->cylinder_axis * *out_x1) + XV(cylinder);
+	float m2 = dot(ray_dir, cylinder->cylinder_axis * *out_x2) + XV(cylinder);
+
+	if (fabs(m1) > cylinder->len && fabs(m2) > cylinder->len)
+	{
+		*out_x1 = INFINITY;
+		*out_x2 = INFINITY;
+	}
 }
 
 void			ray_cone_intersect(
@@ -134,7 +141,7 @@ void find_intersection(
 			ray_sphere_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
 			break ;
 		case (PLANE):
-			ray_plane_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
+			ray_plane_intersect(origin, ray_dir, object->center, object->normal, out_intersect1, out_intersect2);
 			break ;
 		case (CYLINDER):
 			ray_cylinder_intersect(origin, ray_dir, object, out_intersect1, out_intersect2);
