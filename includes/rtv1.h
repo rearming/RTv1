@@ -23,6 +23,7 @@
 */
 
 void		init_rtv1(t_rtv1 *out_rtv1);
+void		init_scene(t_scene *out_scene);
 
 /*
 ** Hooks
@@ -47,6 +48,12 @@ void		render_cpu(t_rtv1 *rtv1);
 /*
 ** Raytracing objects
 */
+
+t_object	new_sphere(
+		cl_float3 center,
+		float radius,
+		int color,
+		int specularity);
 
 t_object	new_plane(
 		cl_float3 dot,

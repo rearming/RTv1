@@ -12,6 +12,22 @@
 
 #include "rtv1.h"
 
+t_object	new_sphere(
+		cl_float3 center,
+		float radius,
+		int color,
+		int specularity)
+{
+	t_object	sphere;
+
+	sphere.type = SPHERE;
+	sphere.center = center;
+	sphere.radius = radius;
+	sphere.material.color.value = color;
+	sphere.material.specularity = specularity;
+	return (sphere);
+}
+
 t_object	new_plane(
 		cl_float3 dot,
 		cl_float3 normal_vector,
@@ -27,10 +43,6 @@ t_object	new_plane(
 	plane.material.specularity = specularity;
 	return (plane);
 }
-
-/*
- * vector determines start and end of cylinder
-*/
 
 t_object new_cylinder(
 		cl_float3 center,

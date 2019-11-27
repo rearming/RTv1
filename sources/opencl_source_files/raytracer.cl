@@ -224,7 +224,7 @@ __kernel void		raytracer(
 	y -= WIN_HEIGHT / 2;
 	y = -y;
 
-	float3 ray_dir = fast_normalize(canvas_to_viewport(camera, (float3)(x, y, 0)));
+	float3 ray_dir = normalize(canvas_to_viewport(camera, (float3)(x, y, 0)));
 	rotate_point(&ray_dir, camera->rotation);
 	result_color.value = trace_ray(scene, camera->pos, objects, lights, ray_dir, camera->viewport_distance, INFINITY);
 	img_data[g_id] = result_color.value;
