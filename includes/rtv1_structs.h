@@ -177,10 +177,9 @@ typedef struct			s_object
 	t_material			material;
 	cl_float3			normal;
 	float				angle;
-	cl_float2			cone_min_max;
 	cl_float3			center;
 	cl_float			len;
-	cl_float3			cylinder_axis;
+	cl_float3			axis;
 # else
 
 	t_object_type		type;
@@ -191,7 +190,7 @@ typedef struct			s_object
 	float2				cone_min_max;
 	float3				center;
 	float				len;
-	float3				cylinder_axis;
+	float3				axis;
 # endif
 
 }						t_object;

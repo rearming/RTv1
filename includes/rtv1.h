@@ -65,11 +65,11 @@ t_object	new_cylinder(
 t_object	new_cone(
 		cl_float3 center,
 		float radius,
-		cl_float3 normal_vector,
-		cl_float2 cone_min_max,
-		float angle,
-		int color,
-		int specularity);
+		cl_float3 rotation,
+		cl_float angle,
+		cl_float len,
+		int specularity,
+		int color);
 
 /*
 ** Render utils

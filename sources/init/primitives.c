@@ -46,7 +46,7 @@ t_object new_cylinder(
 	cylinder.center = center;
 	center = vec_add(center, (cl_float3){{center.x, center.y + 1, center.z}});
 	rotate_point(&center, rotation);
-	cylinder.cylinder_axis = vec_normalize(center);
+	cylinder.axis = vec_normalize(center);
 	cylinder.len = len;
 	cylinder.radius = radius;
 	cylinder.material.color.value = color;
@@ -54,17 +54,24 @@ t_object new_cylinder(
 	return (cylinder);
 }
 
-t_object new_cone(cl_float3 center, float radius, cl_float3 normal_vector,
-				  cl_float2 cone_min_max, float angle, int specularity,
-				  int color) {
+t_object new_cone(
+		cl_float3 center,
+		float radius,
+		cl_float3 rotation,
+		cl_float angle,
+		cl_float len,
+		int specularity,
+		int color)
+{
 	t_object cone;
 
 	cone.type = CONE;
 	cone.center = center;
 	cone.radius = radius;
-	cone.cylinder_axis = normal_vector;
-	cone.cylinder_axis = vec_normalize(cone.cylinder_axis);
-	cone.cone_min_max = cone_min_max;
+	center = vec_add(center, (cl_float3){{center.x, center.y + 1, center.z}});
+	rotate_point(&center, rotation);
+	cone.axis = vec_normalize(center);
+	cone.len = len;
 	cone.angle = angle;
 	cone.material.color.value = color;
 	cone.material.specularity = specularity;
