@@ -30,7 +30,6 @@ set(sources
         sources/math_utils/math_utils.c
         sources/math_utils/rotation.c
         sources/math_utils/vector_math2.c
-        sources/open_cl/cl_gnl.c
         sources/open_cl/cl_init.c
         sources/open_cl/cl_files_parser.c
         sources/open_cl/cl_render.c

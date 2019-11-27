@@ -16,8 +16,9 @@ char		*concat_source_code(int files_nbr, ...)
 	va_start(ap, files_nbr);
 	while (i < files_nbr)
 	{
-		str_file = cl_gnl(
-				open(va_arg(ap, char*), O_RDONLY), &out_file_size);
+		if (!(str_file = ft_readfile(
+				open(va_arg(ap, char*), O_RDONLY), &out_file_size)))
+			raise_error(ERR_INV_FILE);
 		gnl.sum_len += out_file_size;
 		gnl.temp_str = ft_strljoin(gnl.backup, str_file, gnl.sum_len);
 		free(str_file);
