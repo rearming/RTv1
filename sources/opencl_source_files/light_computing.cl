@@ -1,18 +1,15 @@
 float				compute_glare(
-		float3 normal_vec,
+		float3 normal,
 		float3 light_vec,
 		float3 ray_dir,
 		float light_intensity,
 		int specularity)
 {
-	float3	perfect_reflect = 2 * normal_vec * dot(normal_vec, light_vec) - light_vec;
-	float	perfect_reflect_dot_opposite_ray_dir = dot(perfect_reflect, -ray_dir);
 	float	result_intensity = 0;
 
-	if (perfect_reflect_dot_opposite_ray_dir > 0)
-		result_intensity = light_intensity *
-						   pow(perfect_reflect_dot_opposite_ray_dir / (length(perfect_reflect) * length(-ray_dir)), specularity);
-	return result_intensity;
+	float3 half_ray_light = normalize(light_vec + ray_dir);
+	result_intensity = pow(dot(normal, half_ray_light), specularity);
+	return result_intensity * light_intensity;
 }
 
 float3			compute_normal(float3 point, __constant t_object *intersect_obj)
@@ -81,10 +78,11 @@ float				compute_lighting(
 			continue;
 		normal_dot_light = dot(normal, light_dir);
 		if (normal_dot_light > 0)
-			intensity += lights[i].intensity * normal_dot_light
-			/ (length(normal) * length(light_dir));
-		if (objects[closest_obj_index].material.specularity != MATERIAL_OPAQUE)
-			intensity += compute_glare(normal, light_dir, ray_dir, lights[i].intensity, objects[closest_obj_index].material.specularity);
+		{
+			if (objects[closest_obj_index].material.specularity != MATERIAL_OPAQUE)
+				intensity += lights[i].intensity * normal_dot_light / (length(normal) * length(light_dir));
+				intensity += compute_glare(normal, light_dir, ray_dir, lights[i].intensity, objects[closest_obj_index].material.specularity);
+		}
 	}
 	return (intensity);
 }
