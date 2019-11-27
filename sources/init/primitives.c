@@ -6,7 +6,7 @@
 /*   By: dgreat <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 02:30:41 by dgreat            #+#    #+#             */
-/*   Updated: 2019/11/25 02:30:46 by dgreat           ###   ########.fr       */
+/*   Updated: 2019/11/27 16:14:22 by dgreat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_object new_cone(
 	rotate_point(&center, rotation);
 	cone.axis = vec_normalize(center);
 	cone.len = len;
-	cone.angle = angle;
+	cone.angle = angle * (float)M_PI_180;
 	cone.material.color.value = color;
 	cone.material.specularity = specularity;
 	return (cone);

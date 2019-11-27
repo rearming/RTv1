@@ -86,7 +86,6 @@ void			ray_cone_intersect(
 //		const float 	k2 = SQR(cone->radius) + 1.f;//
 //		TODO:тут происходит залупа,
 //		 приходится руками объявлять радиус, нормальный простой более-менее красивый конус имеет радиус 0.5
-//		const float 	k2 = SQR(10) + 1.f;
 
 		const float3	origin_center = camera_pos - cone->center;
 //это конус при малых значених радиуса
@@ -97,11 +96,6 @@ void			ray_cone_intersect(
 
 
 //TODO: при данном k2 это тор в данном куске кода тор
-
-//		a = DD - k2 * SQR(DV(cone));
-//		b = DX - k2 * (DV(cone) * XV(cone));
-//		c = XX - k2 * SQR(XV(cone));
-
 
 		discriminant = b * b - 4.f * a * c;
 		if (discriminant < 0)
@@ -120,6 +114,8 @@ void			ray_cone_intersect(
 			*out_x2 = INFINITY;
 		}
 }
+
+
 
 void find_intersection(
 		float3 origin,
