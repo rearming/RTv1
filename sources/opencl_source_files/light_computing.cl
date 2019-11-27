@@ -20,7 +20,7 @@ float3			compute_normal(float3 point, __constant t_object *intersect_obj)
 		return intersect_obj->normal;
 	else if (intersect_obj->type == CYLINDER)
 		return normalize((point - intersect_obj->center)
-			- (dot(intersect_obj->cylinder_axis, (point - intersect_obj->center))) * intersect_obj->cylinder_axis);
+			- (dot(intersect_obj->axis, (point - intersect_obj->center))) * intersect_obj->axis);
 	return (float3)(0, 0, 0);
 }
 

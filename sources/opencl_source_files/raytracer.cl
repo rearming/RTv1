@@ -1,7 +1,7 @@
 #define DD dot(ray_dir, ray_dir)
 #define DX dot(ray_dir, origin_center)
-#define DV(obj) dot(ray_dir, obj->cylinder_axis)
-#define XV(obj) dot(origin_center, obj->cylinder_axis)
+#define DV(obj) dot(ray_dir, obj->axis)
+#define XV(obj) dot(origin_center, obj->axis)
 #define XX dot(origin_center, origin_center)
 #define SQR(x) x*x
 
@@ -63,8 +63,8 @@ void			ray_cylinder_intersect(
 	*out_x1 = (-b + sqrt_discriminant) / (2 * a);
 	*out_x2 = (-b - sqrt_discriminant) / (2 * a);
 
-	float m1 = dot(ray_dir, cylinder->cylinder_axis * *out_x1) + XV(cylinder);
-	float m2 = dot(ray_dir, cylinder->cylinder_axis * *out_x2) + XV(cylinder);
+	float m1 = dot(ray_dir, cylinder->axis * *out_x1) + XV(cylinder);
+	float m2 = dot(ray_dir, cylinder->axis * *out_x2) + XV(cylinder);
 
 	if (fabs(m1) > cylinder->len && fabs(m2) > cylinder->len)
 	{
@@ -80,17 +80,28 @@ void			ray_cone_intersect(
 		float *out_x1,
 		float *out_x2)
 {
-		float 			a, b, c, discriminant;
 		const float 	k2 = SQR(tan(cone->angle)) + 1.f;
+
+		float 			a, b, c, discriminant;
+//		const float 	k2 = SQR(cone->radius) + 1.f;//
+//		TODO:тут происходит залупа,
+//		 приходится руками объявлять радиус, нормальный простой более-менее красивый конус имеет радиус 0.5
+//		const float 	k2 = SQR(10) + 1.f;
+
 		const float3	origin_center = camera_pos - cone->center;
+//это конус при малых значених радиуса
+		a = 1.f - (k2) * SQR(dot(ray_dir, cone->axis));
+		b = dot(ray_dir, origin_center) - k2 * dot(ray_dir, cone->axis) * dot(origin_center, cone->axis);
+		b *= 2;
+		c = dot(origin_center, origin_center) - k2 * SQR(dot(origin_center, cone->axis));
 
-//		a = dot(ray_dir, ray_dir) - k2 * SQR(dot(ray_dir, cone->normal));
-//		b = dot(ray_dir, origin_center) - k2 * dot(ray_dir, cone->normal) * dot(origin_center, cone->normal);
-//		c = dot(origin_center, origin_center) - k2 * SQR(dot(origin_center, cone->normal));
 
-		a = DD - k2 * SQR(DV(cone));
-		b = DX - k2 * (DV(cone) * XV(cone));
-		c = XX - k2 * SQR(XV(cone));
+//TODO: при данном k2 это тор в данном куске кода тор
+
+//		a = DD - k2 * SQR(DV(cone));
+//		b = DX - k2 * (DV(cone) * XV(cone));
+//		c = XX - k2 * SQR(XV(cone));
+
 
 		discriminant = b * b - 4.f * a * c;
 		if (discriminant < 0)
@@ -99,32 +110,16 @@ void			ray_cone_intersect(
 
 		*out_x1 = (-b + sqrt_discriminant) / (2.f * a);
 		*out_x2 = (-b - sqrt_discriminant) / (2.f * a);
-}
 
-//void			ray_cone_intersect(
-//		float3 camera_pos,
-//		float3 ray_dir,
-//		__constant t_object *cone,
-//float *out_x1,
-//float *out_x2)
-//{
-//float 			a, b, c, discriminant;
-//const float 	k2 = SQR(cone->angle) + 1.f;
-//const float3	origin_center = camera_pos - cone->center;
-//
-//a = SQR(dot(ray_dir, cone->normal)) - SQR(cos(cone->angle));
-//b = 2.f * (dot(ray_dir, cone->normal) * dot(origin_center, cone->normal) - dot(ray_dir, origin_center) * SQR(cos(cone->angle)));
-//c = SQR(dot(origin_center, cone->normal)) - dot(origin_center, origin_center) * SQR(cos(cone->angle));
-//
-//
-//discriminant = b * b - 4.f * a * c;
-//if (discriminant < 0)
-//return ;
-//float sqrt_discriminant = sqrt(discriminant);
-//
-//*out_x1 = (-b + sqrt_discriminant) / (2.f * a);
-//*out_x2 = (-b - sqrt_discriminant) / (2.f * a);
-//}
+		float m1 = dot(ray_dir, cone->axis * *out_x1) + XV(cone);
+		float m2 = dot(ray_dir, cone->axis * *out_x2) + XV(cone);
+
+		if (fabs(m1) > cone->len && fabs(m2) > cone->len)
+		{
+			*out_x1 = INFINITY;
+			*out_x2 = INFINITY;
+		}
+}
 
 void find_intersection(
 		float3 origin,
@@ -229,7 +224,7 @@ __kernel void		raytracer(
 	y -= WIN_HEIGHT / 2;
 	y = -y;
 
-	float3 ray_dir = canvas_to_viewport(camera, (float3)(x, y, 0));
+	float3 ray_dir = fast_normalize(canvas_to_viewport(camera, (float3)(x, y, 0)));
 	rotate_point(&ray_dir, camera->rotation);
 	result_color.value = trace_ray(scene, camera->pos, objects, lights, ray_dir, camera->viewport_distance, INFINITY);
 	img_data[g_id] = result_color.value;
