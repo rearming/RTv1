@@ -39,6 +39,16 @@
 
 # define MATERIAL_OPAQUE -1
 
+# define STR_SPHERE "sphere"
+# define STR_PLANE "plane"
+# define STR_CYLINDER "cylinder"
+# define STR_CONE "cone"
+
+# define STR_LIGHT "light"
+# define STR_POINT_LIGHT "point"
+# define STR_DIRECTIONAL_LIGHT "directional"
+# define STR_AMBIET_LIGHT "ambient"
+
 # define EXIT_SUCCESS 0
 
 #endif

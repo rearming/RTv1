@@ -13,6 +13,7 @@
 #ifndef RTV1_ERRORS_H
 # define RTV1_ERRORS_H
 
+# define ERR_INV_ARGS_NUM 5
 # define ERR_INV_FILE 6
 
 # define ERR_MALLOC 7
@@ -36,5 +37,10 @@
 # define ERR_OPENCL_CREATE_BUFFER 23
 # define ERR_OPENCL_RUN_KERNELS 24
 # define ERR_OPENCL_READ_BUFFER 25
+
+# define ERR_UNKNOWN_OBJ 26
+
+# define ERR_INV_SCENE_SYNTAX 27
+# define ERR_INV_OBJ_DEFINITION 28
 
 #endif

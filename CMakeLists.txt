@@ -20,7 +20,6 @@ set(sources
         sources/main.c
         sources/error.c
         sources/init/init.c
-        sources/init/primitives.c
         sources/init/init_scene.c
         sources/hooks/moves.c
         sources/hooks/event_processing.c

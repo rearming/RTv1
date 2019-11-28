@@ -79,9 +79,10 @@ float				compute_lighting(
 		normal_dot_light = dot(normal, light_dir);
 		if (normal_dot_light > 0)
 		{
-			if (objects[closest_obj_index].material.specularity != MATERIAL_OPAQUE)
-				intensity += lights[i].intensity * normal_dot_light / (length(normal) * length(light_dir));
-				intensity += compute_glare(normal, light_dir, ray_dir, lights[i].intensity, objects[closest_obj_index].material.specularity);
+			intensity += lights[i].intensity * normal_dot_light / (length(normal) * length(light_dir));
+			if (objects[closest_obj_index].material.specularity > 0)
+				intensity += compute_glare(normal, light_dir, ray_dir,
+						lights[i].intensity, objects[closest_obj_index].material.specularity);
 		}
 	}
 	return (intensity);

@@ -11,6 +11,13 @@ static void		raise_error2(int err_code)
 		ft_printf_fd(STDERR_FILENO, "clCreateBuffer failed\n");
 	else if (err_code == ERR_OPENCL_SETARG)
 		ft_printf_fd(STDERR_FILENO, "clSetKernelArg failed\n");
+	else if (err_code == ERR_INV_ARGS_NUM)
+		ft_printf_fd(STDERR_FILENO, "Invalid arguments number,"
+							  "expected 1 argument for *.rtv1 scene file!\n");
+	else if (err_code == ERR_UNKNOWN_OBJ)
+		ft_printf_fd(STDERR_FILENO, "Unknown object!\n");
+	else if (err_code == ERR_INV_SCENE_SYNTAX)
+		ft_printf_fd(STDERR_FILENO, "Invalid scene file syntax!\n");
 	else
 		ft_printf_fd(STDERR_FILENO, "UNKNOWN ERROR!\n");
 }

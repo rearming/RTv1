@@ -30,7 +30,6 @@ void		init_events(t_events *events)
 void		init_rtv1(t_rtv1 *out_rtv1)
 {
 	init_sdl(&out_rtv1->sdl);
-	init_scene(&out_rtv1->scene);
 	init_events(&out_rtv1->events);
 
 	out_rtv1->camera = (t_camera)

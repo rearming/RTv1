@@ -24,6 +24,14 @@
 
 void		init_rtv1(t_rtv1 *out_rtv1);
 void		init_scene(t_scene *out_scene);
+void		init_objects(const char *filename, t_scene *out_scene);
+
+/*
+**	Scene correction
+*/
+
+void		correct_lights_intensity(t_scene *scene);
+void		correct_objects(t_scene *scene);
 
 /*
 ** Hooks
@@ -45,6 +53,7 @@ void		camera_move(t_camera *camera, t_events *events);
 
 void		render(t_rtv1 *rtv1, void (*render_func)(t_rtv1 *));
 void		render_cpu(t_rtv1 *rtv1);
+
 /*
 ** Raytracing objects
 */
@@ -69,14 +78,9 @@ t_object	new_cylinder(
 		int color,
 		int specularity);
 
-t_object	new_cone(
-		cl_float3 center,
-		float radius,
-		cl_float3 rotation,
-		cl_float angle,
-		cl_float len,
-		int specularity,
-		int color);
+t_object
+new_cone(cl_float3 center, cl_float3 rotation, cl_float angle, float radius,
+		 cl_float len, int specularity, int color);
 
 /*
 ** Render utils
@@ -119,5 +123,6 @@ void		raise_error(int err_code);
 
 void		print_vector(cl_float3 vec);
 void		print_debug_info(t_rtv1 *rtv1);
+void		print_object(t_object object);
 
 #endif
