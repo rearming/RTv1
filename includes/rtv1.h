@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rtv1.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sleonard <sleonard@student.21-schoo>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/28 18:17:40 by sleonard          #+#    #+#             */
+/*   Updated: 2019/11/28 18:17:41 by sleonard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef RTV1_H
 # define RTV1_H
 
@@ -23,7 +35,7 @@
 */
 
 void		init_rtv1(t_rtv1 *out_rtv1);
-void 		init_scene(
+void		init_scene(
 		const char *filename,
 		t_scene *out_scene,
 		t_camera *out_camera);
@@ -54,35 +66,6 @@ void		camera_move(t_camera *camera, t_events *events);
 */
 
 void		render(t_rtv1 *rtv1, void (*render_func)(t_rtv1 *));
-void		render_cpu(t_rtv1 *rtv1);
-
-/*
-** Raytracing objects
-*/
-
-t_object	new_sphere(
-		cl_float3 center,
-		float radius,
-		int color,
-		int specularity);
-
-t_object	new_plane(
-		cl_float3 dot,
-		cl_float3 normal_vector,
-		int color,
-		int specularity);
-
-t_object	new_cylinder(
-		cl_float3 center,
-		cl_float3 rotation,
-		cl_float radius,
-		cl_float len,
-		int color,
-		int specularity);
-
-t_object
-new_cone(cl_float3 center, cl_float3 rotation, cl_float angle, float radius,
-		 cl_float len, int specularity, int color);
 
 /*
 ** Render utils
