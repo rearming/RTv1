@@ -1,6 +1,8 @@
 #ifndef RTV1_DEFINES_H
 # define RTV1_DEFINES_H
 
+# define RTV1_DEBUG 0
+
 # define MOVE_SPEED 0.2
 # define SIDE_MOVE_SPEED 0.1
 # define FLY_SPEED 0.2

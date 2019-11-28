@@ -1,19 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cl_init.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sleonard <sleonard@student.21-schoo>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/28 17:52:05 by sleonard          #+#    #+#             */
+/*   Updated: 2019/11/28 17:52:06 by sleonard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rtv1.h"
-
-void		print_cl_build_program_debug(t_opencl *cl)
-{
-	size_t		log_size;
-	char		*log;
-
-	clGetProgramBuildInfo(cl->program, cl->device_id,
-			CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
-	if (!(log = malloc(log_size)))
-		raise_error(ERR_MALLOC);
-	clGetProgramBuildInfo(cl->program, cl->device_id,
-			CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
-	ft_printf("OpenCL Log:\n%s\n", log);
-	free(log);
-}
 
 void		cl_compile(t_rtv1 *rtv1)
 {

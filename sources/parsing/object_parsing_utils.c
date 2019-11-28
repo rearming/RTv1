@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   object_parsing_utils.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sleonard <sleonard@student.21-schoo>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/28 17:53:07 by sleonard          #+#    #+#             */
+/*   Updated: 2019/11/28 17:53:08 by sleonard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "scene_parsing.h"
 
 cl_float3	get_vector(const char *config, const char *field_name)

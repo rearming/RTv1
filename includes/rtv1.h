@@ -123,8 +123,9 @@ void		raise_error(int err_code);
 **	Debug
 */
 
-void		print_vector(cl_float3 vec);
+void		print_clfloat3(cl_float3 vec);
 void		print_debug_info(t_rtv1 *rtv1);
 void		print_object(t_object *object);
+void		print_cl_build_program_debug(t_opencl *cl);
 
 #endif
