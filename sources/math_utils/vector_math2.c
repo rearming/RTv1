@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   vector_math2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sleonard <sleonard@student.21-schoo>       +#+  +:+       +#+        */
+/*   By: sleonard <sleonard@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 17:51:29 by sleonard          #+#    #+#             */
 /*   Updated: 2019/11/28 17:51:30 by sleonard         ###   ########.fr       */

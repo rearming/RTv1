@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sleonard <sleonard@student.21-schoo>       +#+  +:+       +#+        */
+/*   By: sleonard <sleonard@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 17:54:02 by sleonard          #+#    #+#             */
 /*   Updated: 2019/11/28 17:54:04 by sleonard         ###   ########.fr       */

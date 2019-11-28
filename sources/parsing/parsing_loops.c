@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_loops.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sleonard <sleonard@student.21-schoo>       +#+  +:+       +#+        */
+/*   By: sleonard <sleonard@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 17:53:15 by sleonard          #+#    #+#             */
 /*   Updated: 2019/11/28 17:53:17 by sleonard         ###   ########.fr       */
