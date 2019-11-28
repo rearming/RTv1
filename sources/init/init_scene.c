@@ -10,19 +10,22 @@ void		correct_objects(t_scene *scene)
 		if (scene->objects[i].type == CYLINDER)
 		{
 			scene->objects[i].center = vec_add(scene->objects[i].center,
-					(cl_float3){{scene->objects[i].center.x, scene->objects[i].center.y + 1, scene->objects[i].center.z}});
+				(cl_float3){{scene->objects[i].center.x,
+				 scene->objects[i].center.y + 1, scene->objects[i].center.z}});
 			rotate_point(&scene->objects[i].center, scene->objects[i].axis);
 			scene->objects[i].axis = vec_normalize(scene->objects[i].center);
 		}
 		else if (scene->objects[i].type == CONE)
 		{
-			scene->objects[i].center = vec_add(scene->objects[i].center, (cl_float3){{scene->objects[i].center.x, scene->objects[i].center.y + 1, scene->objects[i].center.z}});
+			scene->objects[i].center = vec_add(scene->objects[i].center,
+				(cl_float3){{scene->objects[i].center.x,
+				 scene->objects[i].center.y + 1, scene->objects[i].center.z}});
 			rotate_point(&scene->objects[i].center, scene->objects[i].axis);
 			scene->objects[i].axis = vec_normalize(scene->objects[i].center);
 		}
+		print_object(&scene->objects[i]);
 		i++;
 	}
-
 }
 
 void		correct_lights_intensity(t_scene *scene)

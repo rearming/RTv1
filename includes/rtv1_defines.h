@@ -49,6 +49,16 @@
 # define STR_DIRECTIONAL_LIGHT "directional"
 # define STR_AMBIET_LIGHT "ambient"
 
+# define STR_CENTER "center("
+# define STR_POS "pos("
+# define STR_ROTATION "rotation("
+# define STR_NORMAL "normal("
+# define STR_ANGLE "angle("
+# define STR_LENGTH "length("
+# define STR_RADIUS "radius("
+# define STR_COLOR "color("
+# define STR_SPECULAR "specular("
+
 # define EXIT_SUCCESS 0
 
 #endif

@@ -36,7 +36,7 @@ set(sources
         sources/open_cl/cl_debug_info.c
         sources/render/render.c
         sources/parsing/scene_config_parser.c
-        )
+        sources/parsing/object_getter.c sources/parsing/object_parsing_utils.c sources/parsing/scene_parsing.h sources/parsing/light_getter.c sources/parsing/parsing_loops.c sources/parsing/camera_getter.c)
 
 link_directories(
         libft

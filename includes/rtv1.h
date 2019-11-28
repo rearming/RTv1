@@ -23,8 +23,10 @@
 */
 
 void		init_rtv1(t_rtv1 *out_rtv1);
-void		init_scene(t_scene *out_scene);
-void		init_objects(const char *filename, t_scene *out_scene);
+void 		init_scene(
+		const char *filename,
+		t_scene *out_scene,
+		t_camera *out_camera);
 
 /*
 **	Scene correction
@@ -123,6 +125,6 @@ void		raise_error(int err_code);
 
 void		print_vector(cl_float3 vec);
 void		print_debug_info(t_rtv1 *rtv1);
-void		print_object(t_object object);
+void		print_object(t_object *object);
 
 #endif

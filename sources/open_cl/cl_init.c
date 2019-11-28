@@ -12,6 +12,7 @@ void		print_cl_build_program_debug(t_opencl *cl)
 	clGetProgramBuildInfo(cl->program, cl->device_id,
 			CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
 	ft_printf("OpenCL Log:\n%s\n", log);
+	free(log);
 }
 
 void		cl_compile(t_rtv1 *rtv1)

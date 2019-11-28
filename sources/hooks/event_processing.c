@@ -52,7 +52,7 @@ void		process_event(SDL_Event *event, t_rtv1 *rtv1)
 			SDL_SetRelativeMouseMode(!SDL_GetRelativeMouseMode());
 		add_key_event(&rtv1->events, event->key.keysym.scancode);
 	}
-	else if (event->type == SDL_MOUSEMOTION)
+	else if (event->type == SDL_MOUSEMOTION && SDL_GetRelativeMouseMode())
 	{
 		rtv1->camera.rotation.x -=
 				event->motion.yrel * ROTATION_SPEED * WIN_RATIO;

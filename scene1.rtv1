@@ -13,6 +13,9 @@ cylinder
 cylinder
 { pos(0, 0, 0} rotation(0, 0, 90) radius(1.5) length(15.5) color(0xE2007A) specular(300)
 
+cone
+{ pos(-10, 0, 0} rotation(0, 0, 0) angle(15) length(5) color(0xFF00FF) specular(200) }
+
 plane
 { pos(0, -4, 0) normal(0, 1, 0) color(0xFFFFFF) specular(200) }
 
