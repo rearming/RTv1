@@ -139,7 +139,7 @@ SDL_UTILS_OBJ = $(addprefix $(OBJ_DIR), $(SDL_UTILS_FILES:.c=.o))
 # ============================================================================ #
 
 NAME =							\
-	rtv1
+	RTv1
 
 OBJ =							\
 	$(MAIN_OBJ)					\
@@ -184,7 +184,7 @@ SDL2_FRAMEWORK = -rpath ./SDL2_libs -F$(SDL_DIR) -framework SDL2
 
 RTV1_LIBS = -L $(LIBFT_DIR) -lft -L $(FT_PRINTF) -lftprintf $(SDL2_FRAMEWORK) $(OPEN_CL_FRAMEWORK)
 
-all : $(NAME)
+all : update $(NAME)
 
 update:
 	@git submodule init

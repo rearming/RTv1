@@ -32,7 +32,10 @@ static void		raise_error2(int err_code)
 		ft_printf_fd(STDERR_FILENO, "Invalid scene file syntax!\n");
 	else if (err_code == ERR_INV_FILE)
 		ft_printf_fd(STDERR_FILENO, "Invalid file! "
-							  "Expected *.rtv1 text scene file.\n");
+			"Expected *.rtv1 text scene file.\n");
+	else if (err_code == ERR_SCENE_NO_OBJECTS)
+		ft_printf_fd(STDERR_FILENO, "Invalid file! "
+			"Expected scene with at least one object!.\n");
 	else
 		ft_printf_fd(STDERR_FILENO, "UNKNOWN ERROR!\n");
 }

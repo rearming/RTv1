@@ -36,6 +36,8 @@ void		init_scene(
 	if (!(config = ft_readfile(open(filename, O_RDONLY), NULL)))
 		raise_error(ERR_INV_FILE);
 	out_scene->obj_nbr = count_all_objects(config);
+	if (out_scene->obj_nbr == 0)
+		raise_error(ERR_SCENE_NO_OBJECTS);
 	if (!(out_scene->objects = malloc(sizeof(t_object) * out_scene->obj_nbr)))
 		raise_error(ERR_MALLOC);
 	obj_index = 0;

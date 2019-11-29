@@ -42,5 +42,6 @@
 
 # define ERR_INV_SCENE_SYNTAX 27
 # define ERR_INV_OBJ_DEFINITION 28
+# define ERR_SCENE_NO_OBJECTS 29
 
 #endif
