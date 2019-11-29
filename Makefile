@@ -6,7 +6,7 @@
 #    By: sleonard <sleonard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/10 23:20:41 by sleonard          #+#    #+#              #
-#    Updated: 2019/11/29 15:46:07 by sleonard         ###   ########.fr        #
+#    Updated: 2019/11/29 15:48:40 by sleonard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -184,13 +184,13 @@ SDL2_FRAMEWORK = -rpath ./SDL2_libs -F$(SDL_DIR) -framework SDL2
 
 RTV1_LIBS = -L $(LIBFT_DIR) -lft -L $(FT_PRINTF) -lftprintf $(SDL2_FRAMEWORK) $(OPEN_CL_FRAMEWORK)
 
-all : $(NAME)
+all : update $(NAME)
 
 update:
-	@git submodule init
+	@git submodule init libft
 	@git submodule update
 
-$(NAME) : update $(LIBFT) $(MINILIBX_LIB) $(OBJ_DIR) $(OBJ)
+$(NAME) : $(LIBFT) $(MINILIBX_LIB) $(OBJ_DIR) $(OBJ)
 	$(COMPILE) $(RTV1_LIBS) $(OBJ) -o $(NAME)
 
 $(OBJ_DIR) :
