@@ -184,7 +184,11 @@ SDL2_FRAMEWORK = -rpath ./SDL2_libs -F$(SDL_DIR) -framework SDL2
 
 RTV1_LIBS = -L $(LIBFT_DIR) -lft -L $(FT_PRINTF) -lftprintf $(SDL2_FRAMEWORK) $(OPEN_CL_FRAMEWORK)
 
-all : $(NAME)
+update:
+	@git submodule init
+	@git submodule update
+
+all : update $(NAME)
 
 $(NAME) : $(LIBFT) $(MINILIBX_LIB) $(OBJ_DIR) $(OBJ)
 	$(COMPILE) $(RTV1_LIBS) $(OBJ) -o $(NAME)
