@@ -33,10 +33,16 @@ set(sources
         sources/open_cl/cl_files_parser.c
         sources/open_cl/cl_render.c
         sources/open_cl/cl_memory_management.c
-        sources/debug/debug_utils.c
         sources/render/render.c
         sources/parsing/scene_config_parser.c
-        sources/parsing/object_getter.c sources/parsing/object_parsing_utils.c sources/parsing/scene_parsing.h sources/parsing/light_getter.c sources/parsing/parsing_loops.c sources/parsing/camera_getter.c sources/debug/debug_print_objects.c)
+        sources/parsing/object_getter.c
+        sources/parsing/object_parsing_utils.c
+        sources/parsing/scene_parsing.h
+        sources/parsing/light_getter.c
+        sources/parsing/parsing_loops.c
+        sources/parsing/camera_getter.c
+        sources/debug/debug_utils.c
+        sources/debug/debug_print_objects.c)
 
 link_directories(
         libft

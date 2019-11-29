@@ -29,8 +29,8 @@
 
 # define WIN_TITLE "Dota 4"
 
-# define WIN_WIDTH 2000
-# define WIN_HEIGHT 1000
+# define WIN_WIDTH 2550
+# define WIN_HEIGHT 1300
 # define WIN_RATIO ((float)WIN_WIDTH / WIN_HEIGHT)
 # define INVERSE_RATIO ((float)WIN_HEIGHT / WIN_WIDTH)
 # define D_E_KARMATSKIY (INVERSE_RATIO * INVERSE_RATIO)
@@ -51,7 +51,7 @@
 
 # define COL_BG COL_GREY
 
-# define MATERIAL_OPAQUE -1
+# define MATERIAL_OPAQUE (-1)
 
 # define STR_SPHERE "sphere"
 # define STR_PLANE "plane"

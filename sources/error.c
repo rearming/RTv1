@@ -24,7 +24,7 @@ static void		raise_error2(int err_code)
 	else if (err_code == ERR_OPENCL_SETARG)
 		ft_printf_fd(STDERR_FILENO, "clSetKernelArg failed\n");
 	else if (err_code == ERR_INV_ARGS_NUM)
-		ft_printf_fd(STDERR_FILENO, "Invalid arguments number,"
+		ft_printf_fd(STDERR_FILENO, "Invalid arguments number, "
 			"expected 1 argument for *.rtv1 scene file!\n");
 	else if (err_code == ERR_UNKNOWN_OBJ)
 		ft_printf_fd(STDERR_FILENO, "Unknown object!\n");

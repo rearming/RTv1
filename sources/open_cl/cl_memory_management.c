@@ -13,7 +13,7 @@
 #include "rtv1.h"
 
 /*
-** (1 << 2) is CL_MEM_READ_ONLY, well fuck norme =)
+** norme because of opencl macros
 */
 
 void		cl_set_kernel(t_rtv1 *rtv1, t_opencl *cl)
