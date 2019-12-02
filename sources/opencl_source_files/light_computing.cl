@@ -25,10 +25,9 @@ float3			compute_normal(float3 point, __constant t_object *intersect_obj)//todo 
 		q = point;
 		p_a = intersect_obj->center;
 		v_a = intersect_obj->axis;
-//		return normalize((point - intersect_obj->center * intersect_obj->len)
-//			- (dot(intersect_obj->axis, (point - intersect_obj->center * intersect_obj->len))) * intersect_obj->axis);
-//		return normalize((q - p_a) - dot(v_a, (v_a * (q - p_a))));
 		v1 = cross(q - p_a, v_a);
+//		if (dot(intersect_obj->axis, q - p_a) > 0) //из-за этого может объебаться в каком-то кейсе
+//			v1 -= 2 * v1;
 		n = cross(v_a, v1);
 		return normalize(n);
 	}

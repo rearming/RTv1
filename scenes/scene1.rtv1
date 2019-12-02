@@ -14,6 +14,13 @@ cylinder
 { pos(1000, 2, 0) rotation(45, 0, 0) radius(1) length(10) color(0x7830E0) specular(200) }
 
 cylinder
+{ pos(1100, 2, 15) rotation(45, 0, 0) radius(1) length(10) color(0x7830E0) specular(200) }
+
+
+sphere
+{ center(1000, 1, 30) radius(1) color(0xFF0000) specular(500) }
+
+cylinder
 { pos(0, 0, 0} rotation(0, 0, 90) radius(1.5) length(15.5) color(0xE2007A) specular(300)
 
 cone
