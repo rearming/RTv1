@@ -6,7 +6,7 @@
 /*   By: sleonard <sleonard@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 17:50:50 by sleonard          #+#    #+#             */
-/*   Updated: 2019/11/28 17:50:53 by sleonard         ###   ########.fr       */
+/*   Updated: 2019/11/29 18:41:51 by dgreat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,23 @@
 
 void		correct_objects(t_scene *scene)
 {
-	int		i;
+	int			i;
+	cl_float3	rotation;
 
 	i = 0;
 	while (i < scene->obj_nbr)
 	{
 		if (scene->objects[i].type == CYLINDER)
 		{
-			scene->objects[i].center = vec_add(scene->objects[i].center,
-				(cl_float3){{scene->objects[i].center.x,
-				scene->objects[i].center.y + 1, scene->objects[i].center.z}});
-			rotate_point(&scene->objects[i].center, scene->objects[i].axis);
-			scene->objects[i].axis = vec_normalize(scene->objects[i].center);
+			rotation = (cl_float3){{0, scene->objects[i].center.y + 1, 0}};
+			rotate_point(&rotation, scene->objects[i].axis);
+			scene->objects[i].axis = vec_normalize(rotation);
 		}
 		else if (scene->objects[i].type == CONE)
 		{
-			scene->objects[i].center = vec_add(scene->objects[i].center,
-				(cl_float3){{scene->objects[i].center.x,
-				scene->objects[i].center.y + 1, scene->objects[i].center.z}});
-			rotate_point(&scene->objects[i].center, scene->objects[i].axis);
-			scene->objects[i].axis = vec_normalize(scene->objects[i].center);
+			rotation = (cl_float3){{0, scene->objects[i].center.y + 1, 0}};
+			rotate_point(&rotation, scene->objects[i].axis);
+			scene->objects[i].axis = vec_normalize(rotation);
 		}
 		if (RTV1_DEBUG)
 			print_object(&scene->objects[i]);

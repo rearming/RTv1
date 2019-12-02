@@ -20,6 +20,7 @@ void		render_gpu(t_rtv1 *rtv1)
 	cl_set_kernel(rtv1, &rtv1->cl);
 	if (rtv1->events.info)
 		print_debug_info(rtv1);
+
 	err = clEnqueueNDRangeKernel(rtv1->cl.queue,
 			rtv1->cl.kernel, 1, NULL, &kernel_num, NULL, 0, NULL, NULL);
 	if (err)

@@ -1,0 +1,17 @@
+cone
+{ pos(10, 0, 10} rotation(90, 0, 0) angle(10) length(10) color(0xFF00FF) specular(200) }
+
+sphere
+{ center(0, 0, 0) radius(1.5) color(0xFF0000) specular(500) }
+
+plane
+{ pos(0, -4, 0) normal(0, 1, 0) color(0xFFFFFF) specular(200) }
+
+light
+{ type(point) intensity(0.8) pos(6, -2, 10) dir() }
+
+light
+{ type(point) intensity(0.8) pos(6, 1, 6) dir() }
+
+light
+{ type(ambient) intensity(0.6) pos() dir() }

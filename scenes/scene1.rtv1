@@ -8,7 +8,10 @@ sphere
 { center(2, 0, 4) radius(1) color(0x00FF00) specular(10) }
 
 cylinder
-{ pos(0, 0, 0) rotation(45, 0, 0) radius(1) length(10) color(0x7830E0) specular(200)
+{ pos(0, 0, 0) rotation(45, 0, 0) radius(1) length(10) color(0x7830E0) specular(200) }
+
+cylinder
+{ pos(1000, 2, 0) rotation(45, 0, 0) radius(1) length(10) color(0x7830E0) specular(200) }
 
 cylinder
 { pos(0, 0, 0} rotation(0, 0, 90) radius(1.5) length(15.5) color(0xE2007A) specular(300)
@@ -19,7 +22,7 @@ cone
 plane
 { pos(0, -4, 0) normal(0, 1, 0) color(0xFFFFFF) specular(200) }
 
-light
+l1ight
 { type(point) intensity(0.8) pos(6, -2, 1) dir() }
 
 light

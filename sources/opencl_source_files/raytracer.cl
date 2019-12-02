@@ -84,18 +84,14 @@ void			ray_cone_intersect(
 
 		float 			a, b, c, discriminant;
 //		const float 	k2 = SQR(cone->radius) + 1.f;//
-//		TODO:тут происходит залупа,
-//		 приходится руками объявлять радиус, нормальный простой более-менее красивый конус имеет радиус 0.5
 
 		const float3	origin_center = camera_pos - cone->center;
-//это конус при малых значених радиуса
-		a = 1.f - (k2) * SQR(dot(ray_dir, cone->axis));
-		b = dot(ray_dir, origin_center) - k2 * dot(ray_dir, cone->axis) * dot(origin_center, cone->axis);
-		b *= 2;
-		c = dot(origin_center, origin_center) - k2 * SQR(dot(origin_center, cone->axis));
+
+		a = DD - k2 * SQR(DV(cone));
+		b = (DX - k2 * (DV(cone) * XV(cone))) * 2;
+		c = XX - k2 * SQR(XV(cone));
 
 
-//TODO: при данном k2 это тор в данном куске кода тор
 
 		discriminant = b * b - 4.f * a * c;
 		if (discriminant < 0)
@@ -105,14 +101,14 @@ void			ray_cone_intersect(
 		*out_x1 = (-b + sqrt_discriminant) / (2.f * a);
 		*out_x2 = (-b - sqrt_discriminant) / (2.f * a);
 
-		float m1 = dot(ray_dir, cone->axis * *out_x1) + XV(cone);
-		float m2 = dot(ray_dir, cone->axis * *out_x2) + XV(cone);
-
-		if (fabs(m1) > cone->len && fabs(m2) > cone->len)
-		{
-			*out_x1 = INFINITY;
-			*out_x2 = INFINITY;
-		}
+//		float m1 = dot(ray_dir, cone->axis * *out_x1) + XV(cone);
+//		float m2 = dot(ray_dir, cone->axis * *out_x2) + XV(cone);
+//
+//		if (fabs(m1) >= cone->len && fabs(m2) >= cone->len)
+//		{
+//			*out_x1 = INFINITY;
+//			*out_x2 = INFINITY;
+//		}
 }
 
 
@@ -160,6 +156,9 @@ float				closest_intersection(
 
 	for (int i = 0; i < scene->obj_nbr; i++)
 	{
+//		if (objects[i].type == CONE)
+//			ray_min = length(objects[i].center - ray_dir) * 0.001;
+//		ray_min = 0.
 		find_intersection(origin, ray_dir, &objects[i], &intersect_1, &intersect_2);
 		if (in_range_inclusive(intersect_1, ray_min, ray_max) && intersect_1 < closest_intersect)
 		{

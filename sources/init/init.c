@@ -47,7 +47,7 @@ void		init_rtv1(t_rtv1 *out_rtv1)
 	init_events(&out_rtv1->events);
 	out_rtv1->camera = (t_camera)
 	{
-		.pos = (cl_float3){{-17.5, 1.5, 20}},
+		.pos = (cl_float3){{0, 0, 0}},
 		.rotation = (cl_float3){{5, -220, 0}},
 		.viewport_distance = 1,
 		.viewport_width = WIN_RATIO < 1 ? D_I_MAZOHIN : 1,
