@@ -59,13 +59,13 @@ t_object		get_object(const char *config, const char *objname)
 	object = (t_object){
 			NOT_SET, 0, (t_material){{0}, NOT_SET},
 			(cl_float3){{0}}, 0, (cl_float3){{0}}, 0, (cl_float3){{0}}};
-	if (objname == STR_SPHERE)
+	if (ft_strequ(objname, STR_SPHERE))
 		get_sphere(config, &object);
-	else if (objname == STR_PLANE)
+	else if (ft_strequ(objname, STR_PLANE))
 		get_plane(config, &object);
-	else if (objname == STR_CYLINDER)
+	else if (ft_strequ(objname, STR_CYLINDER))
 		get_cylinder(config, &object);
-	else if (objname == STR_CONE)
+	else if (ft_strequ(objname, STR_CONE))
 		get_cone(config, &object);
 	else
 	{

@@ -15,8 +15,8 @@
 
 # define RTV1_DEBUG 0
 
-# define MOVE_SPEED 0.2 * 5
-# define SIDE_MOVE_SPEED 0.1 * 5
+# define MOVE_SPEED (0.2 * 5)
+# define SIDE_MOVE_SPEED (0.1 * 5)
 # define FLY_SPEED 0.2
 
 # define ROTATION_SPEED 0.05
@@ -29,8 +29,14 @@
 
 # define WIN_TITLE "Dota 4"
 
-# define WIN_WIDTH 2550
-# define WIN_HEIGHT 1300
+# ifdef __APPLE__
+#  define WIN_WIDTH 2550
+#  define WIN_HEIGHT 1300
+# else
+#  define WIN_WIDTH 1920
+#  define WIN_HEIGHT 1080
+# endif
+
 # define WIN_RATIO ((float)WIN_WIDTH / WIN_HEIGHT)
 # define INVERSE_RATIO ((float)WIN_HEIGHT / WIN_WIDTH)
 # define D_E_KARMATSKIY (INVERSE_RATIO * INVERSE_RATIO)

@@ -37,3 +37,6 @@ light
 
 light
 { type(ambient) intensity(0.6) pos() dir() }
+
+camera
+{ pos(20, 0, 42) rotation(6, -154, 0) }

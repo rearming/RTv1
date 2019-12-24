@@ -24,6 +24,7 @@ char		*concat_source_code(int files_nbr, ...)
 	i = 0;
 	gnl.sum_len = 0;
 	gnl.backup = malloc(1);
+	gnl.backup[0] = 0;
 	gnl.temp_str = NULL;
 	va_start(ap, files_nbr);
 	while (i < files_nbr)
