@@ -55,7 +55,12 @@ char		*get_cl_file(size_t *out_size)
 			"./sources/opencl_source_files/utils.cl",
 			"./sources/opencl_source_files/light_computing.cl",
 			"./sources/opencl_source_files/raytracer.cl");
+# ifdef __APPLE__
+	ft_sprintf(&result_cl_file, "%s%s", "#define FT_OPENCL___\n"
+								"#define __APPLE__\n\n", cl_file);
+# else
 	ft_sprintf(&result_cl_file, "%s%s", "#define FT_OPENCL___\n\n", cl_file);
+# endif
 	*out_size = ft_strlen(result_cl_file);
 	free(cl_file);
 	return (result_cl_file);

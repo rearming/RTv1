@@ -12,7 +12,7 @@ float				compute_glare(
 	return result_intensity * light_intensity;
 }
 
-float3			compute_normal(float3 point, __constant t_object *intersect_obj)//todo CONE!
+float3			compute_normal(float3 point, __constant t_object *intersect_obj)
 {
 	if (intersect_obj->type == SPHERE)
 		return normalize(point - intersect_obj->center);
@@ -26,8 +26,6 @@ float3			compute_normal(float3 point, __constant t_object *intersect_obj)//todo 
 		p_a = intersect_obj->center;
 		v_a = intersect_obj->axis;
 		v1 = cross(q - p_a, v_a);
-//		if (dot(intersect_obj->axis, q - p_a) > 0) //из-за этого может объебаться в каком-то кейсе
-//			v1 -= 2 * v1;
 		n = cross(v_a, v1);
 		return normalize(n);
 	}
@@ -58,7 +56,7 @@ int					in_shadow(
 {
 	int		found_object = NOT_SET;
 
-	closest_intersection(scene, objects, point, light_dir, 0.001f, ray_max, &found_object, 0);
+	closest_intersection(scene, objects, point, light_dir, 0.01f, ray_max, &found_object, 0);
 	if (found_object != NOT_SET)
 		return true;
 	else
@@ -84,7 +82,7 @@ float				compute_lighting(
 	{
 		float		ray_max;
 
-		if (lights[i].type == 1)
+		if (lights[i].type == AMBIENT)
 		{
 			intensity += lights[i].intensity;
 			continue;
@@ -94,7 +92,7 @@ float				compute_lighting(
 			light_dir = lights[i].pos - point;
 			ray_max = 1;
 		}
-		else
+		else if (lights[i].type == DIRECTIONAL)
 		{
 			light_dir = lights[i].dir;
 			ray_max = INFINITY;

@@ -1,65 +1,71 @@
-plane
-{ pos(0, 1, 0) normal(0, 1, 0) color(0xFFFFFF) specular(200) }
+plane // floor
+{ pos(0, 1, 0) normal(0, 1, 0) color(0xBFDBF7) specular(200) }
 
-plane
-{ pos(0, 11, 0) normal(0, 0, 1) color(0xFF) specular(200) }
+plane // right wall
+{ pos(-6, 0, 0) normal(1, 0, 0) color(0xBFDBF7) specular(200) }
 
-plane
-{ pos(-1, 11, 0) normal(1, 0, 0) color(0xFFFF) specular(200) }
+plane // celling
+{ pos(0, 7, 0) normal(0, -1, 0) color(0xBFDBF7) specular(200) }
 
-plane
-{ pos(0, 7, 0) normal(0, 1, 0) color(0xFF0000) specular(200) }
+plane // left wall
+{ pos(13, 0, 0) normal(-1, 0, 0) color(0xBFDBF7) specular(200) }
 
-plane
-{ pos(9, 121, 0) normal(1, 0, 0) color(0xFF00) specular(200) }
+plane // front wall
+{ pos(0, 0, -10) normal(0, 0, 1) color(0xBFDBF7) specular(200) }
 
-plane
-{ pos(22, 121, 0) normal(0, 0, 1) color(0x00) specular(200) }
-
-sphere
-{ center(1, 1, 1) radius(1) color(0x32CD32) specular(10) }
+plane // back wall
+{ pos(0, 0, 50) normal(0, 0, 1) color(0xBFDBF7) specular(200) }
 
 sphere
-{ center(1, 7, 1) radius(1) color(0x32CD32) specular(10) }
+{ center(1, 1, 1) radius(1) color(0xBFDBF7) specular(100) }
 
 sphere
-{ center(7, 1, 1) radius(1) color(0x32CD32) specular(10) }
+{ center(1, 7, 1) radius(1) color(0xBFDBF7) specular(100) }
 
 sphere
-{ center(7, 7, 1) radius(1) color(0x32CD32) specular(10) }
+{ center(7, 1, 1) radius(1) color(0xBFDBF7) specular(100) }
 
 sphere
-{ center(1, 1, 7) radius(1) color(0x32CD32) specular(10) }
+{ center(7, 7, 1) radius(1) color(0xBFDBF7) specular(100) }
 
 sphere
-{ center(7, 1, 7) radius(1) color(0x32CD32) specular(10) }
+{ center(1, 1, 7) radius(1) color(0xBFDBF7) specular(100) }
 
 sphere
-{ center(1, 7, 7) radius(1) color(0x32CD32) specular(10) }
+{ center(7, 1, 7) radius(1) color(0xBFDBF7) specular(100) }
 
 sphere
-{ center(7, 7, 7) radius(1) color(0x32CD32) specular(10) }
+{ center(1, 7, 7) radius(1) color(0xBFDBF7) specular(100) }
 
 sphere
-{ center(4, 4, 4) radius(1) color(0x32CD32) specular(10) }
+{ center(7, 7, 7) radius(1) color(0xBFDBF7) specular(100) }
+
+sphere // central (wtf??)
+{ center(4, 4, 4) radius(1) color(0x273469) specular(100) }
 
 cylinder
-{ pos(1, 1, 1} rotation(0, 0, 0) radius(0.75) length(15.5) color(0xFF6600) specular(300)
+{ pos(1, 1, 1} rotation(0, 0, 0) radius(0.75) length(15.5) color(0x45A0B2) specular(300)
 
 cylinder
-{ pos(1, 1, 7} rotation(0, 0, 0) radius(0.75) length(15.5) color(0xFF6600) specular(300)
+{ pos(1, 1, 7} rotation(0, 0, 0) radius(0.75) length(15.5) color(0x45A0B2) specular(300)
 
 cylinder
-{ pos(7, 1, 1} rotation(0, 0, 0) radius(0.75) length(15.5) color(0xFF6600) specular(300)
+{ pos(7, 1, 1} rotation(0, 0, 0) radius(0.75) length(15.5) color(0x45A0B2) specular(300)
 
 cylinder
-{ pos(7, 1, 7} rotation(0, 0, 0) radius(0.75) length(15.5) color(0xFF6600) specular(300)
-
-li1ght
-{ type(point) intensity(0.8) pos(6, -2, 1) dir() }
+{ pos(7, 1, 7} rotation(0, 0, 0) radius(0.75) length(15.5) color(0x45A0B2) specular(300)
 
 light
-{ type(point) intensity(0.8) pos(7, 4, 4) dir() }
+{ type(point) intensity(0.6) pos(0, 4, 4) dir() }
 
 light
-{ type(ambient) intensity(0.6) pos() dir() }
+{ type(point) intensity(0.6) pos(8, 4, 4) dir() }
+
+light
+{ type(point) intensity(0.5) pos(4, 4, 10) }
+
+light
+{ type(ambient) intensity(0.4) pos() dir() }
+
+camera
+{ pos(3.81, 3.6, 45.97) rotation(6.37, 180, 0) }
