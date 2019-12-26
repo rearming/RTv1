@@ -5,3 +5,5 @@
 *.dSYM
 temp
 rtv1
+.vscode
+build
