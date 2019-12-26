@@ -3,7 +3,7 @@ if [[ ! -f "libft/Makefile" ]]; then
   git submodule update --merge --remote
 fi
 cd libft || echo "can't find libft directory!"
-make -j 4
+make
 cd ..
 mkdir build
 cd build || echo "can't make build directory!"
