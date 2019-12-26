@@ -1,9 +1,9 @@
-if [[ ! -d "libft" ]]; then
+if [[ ! -f "libft/Makefile" ]]; then
   git submodule init
   git submodule update --merge --remote
 fi
 cd libft || echo "can't find libft directory!"
-make
+make -j 4
 cd ..
 mkdir build
 cd build || echo "can't make build directory!"
