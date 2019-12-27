@@ -35,6 +35,9 @@ void		cl_compile(t_rtv1 *rtv1)
 	free(cl_file);
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 void		cl_init(t_rtv1 *rtv1)
 {
 	int			err;
@@ -58,3 +61,5 @@ void		cl_init(t_rtv1 *rtv1)
 		raise_error(ERR_OPENCL_CREATE_QUEUE);
 	cl_compile(rtv1);
 }
+
+#pragma clang diagnostic pop
