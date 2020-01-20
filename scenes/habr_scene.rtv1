@@ -1,0 +1,20 @@
+sphere
+{ center(0, -1, 3) radius(1) color(0xFF0000) specular(500) }
+
+sphere
+{ center(-2, 1, 3) radius(1) color(0x0000FF) specular(500) }
+
+sphere
+{ center(2, 1, 3) radius(1) color(0x00FF00) specular(10) }
+
+sphere
+{ center(0, -5001, 0) radius(5000) color(0xFFFF00) specular(1000) }
+
+light
+{ type(point) intensity(0.5) pos(6, 3, 1) dir() }
+
+light
+{ type(ambient) intensity(0.4) pos() dir() }
+
+camera
+{ pos(0, 0, 0} rotation(0, 0, 0) }

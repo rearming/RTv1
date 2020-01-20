@@ -33,11 +33,11 @@ void		print_cl_build_program_debug(t_opencl *cl)
 	size_t		log_size;
 	char		*log;
 
-	clGetProgramBuildInfo(cl->program, cl->device_id,
+	clGetProgramBuildInfo(g_opencl.program, g_opencl.device_id,
 			CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
 	if (!(log = malloc(log_size)))
 		raise_error(ERR_MALLOC);
-	clGetProgramBuildInfo(cl->program, cl->device_id,
+	clGetProgramBuildInfo(g_opencl.program, g_opencl.device_id,
 			CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
 	ft_printf("OpenCL Log:\n%s\n", log);
 	free(log);

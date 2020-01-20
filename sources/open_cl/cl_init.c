@@ -19,17 +19,17 @@ void		cl_compile(t_rtv1 *rtv1)
 	size_t		size;
 
 	cl_file = get_cl_file(&size);
-	rtv1->cl.program = clCreateProgramWithSource(rtv1->cl.context, 1,
+	g_opencl.program = clCreateProgramWithSource(g_opencl.context, 1,
 			(const char **)&cl_file, &size, &err);
 	if (err)
 		raise_error(ERR_OPENCL_CREATE_PROGRAM);
 	if ((err = clBuildProgram(
-			rtv1->cl.program, 1, &rtv1->cl.device_id, NULL, NULL, NULL)))
+			g_opencl.program, 1, &g_opencl.device_id, NULL, NULL, NULL)))
 	{
-		print_cl_build_program_debug(&rtv1->cl);
+		print_cl_build_program_debug(&g_opencl);
 		raise_error(ERR_OPENCL_BUILD_PROGRAM);
 	}
-	rtv1->cl.kernel = clCreateKernel(rtv1->cl.program, "raytracer", &err);
+	g_opencl.kernel = clCreateKernel(g_opencl.program, "raytracer", &err);
 	if (err)
 		raise_error(ERR_OPENCL_CREATE_KERNEL);
 	free(cl_file);
@@ -43,20 +43,20 @@ void		cl_init(t_rtv1 *rtv1)
 	int			err;
 
 	err = clGetPlatformIDs(
-			1, &rtv1->cl.platform_id, &rtv1->cl.ret_num_platforms);
+			1, &g_opencl.platform_id, &g_opencl.ret_num_platforms);
 	if (err)
 		raise_error(ERR_OPENCL_GET_PLATFORM_ID);
 	err = clGetDeviceIDs(
-			rtv1->cl.platform_id, CL_DEVICE_TYPE_GPU, 1,
-			&rtv1->cl.device_id, &rtv1->cl.ret_num_devices);
+			g_opencl.platform_id, CL_DEVICE_TYPE_GPU, 1,
+			&g_opencl.device_id, &g_opencl.ret_num_devices);
 	if (err)
 		raise_error(ERR_OPENCL_GET_DEVICE_ID);
-	rtv1->cl.context = clCreateContext(
-			NULL, 1, &rtv1->cl.device_id, NULL, NULL, &err);
+	g_opencl.context = clCreateContext(
+			NULL, 1, &g_opencl.device_id, NULL, NULL, &err);
 	if (err)
 		raise_error(ERR_OPENCL_CREATE_CONTEXT);
-	rtv1->cl.queue = clCreateCommandQueue(
-			rtv1->cl.context, rtv1->cl.device_id, 0, &err);
+	g_opencl.queue = clCreateCommandQueue(
+			g_opencl.context, g_opencl.device_id, 0, &err);
 	if (err)
 		raise_error(ERR_OPENCL_CREATE_QUEUE);
 	cl_compile(rtv1);

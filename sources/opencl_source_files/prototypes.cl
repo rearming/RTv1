@@ -79,7 +79,8 @@ int					trace_ray(
 		__constant t_light *lights,
 		float3 ray_dir,
 		float ray_min,
-		float ray_max);
+		float ray_max,
+		int depth);
 
 void		raytracer(
 		__constant t_scene *scene,

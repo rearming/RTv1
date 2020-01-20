@@ -15,8 +15,8 @@
 
 # define RTV1_DEBUG 0
 
-# define MOVE_SPEED (0.2 * 5)
-# define SIDE_MOVE_SPEED (0.1 * 5)
+# define MOVE_SPEED (0.2 * 1)
+# define SIDE_MOVE_SPEED (0.1 * 1)
 # define FLY_SPEED 0.2
 
 # define ROTATION_SPEED 0.05

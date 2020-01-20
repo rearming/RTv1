@@ -30,6 +30,8 @@
 
 # include "math_utils.h"
 
+extern t_opencl g_opencl;
+
 /*
 ** Init
 */

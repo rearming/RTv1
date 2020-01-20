@@ -178,6 +178,11 @@ float				closest_intersection(
 	return (closest_intersect);
 }
 
+float3		reflect(float3 ray_dir, float3 hit_normal)
+{
+	return ray_dir - 2 * dot(hit_normal, ray_dir) * hit_normal;
+}
+
 int					trace_ray(
 		__constant t_scene *scene,
 		float3 origin,
@@ -185,10 +190,12 @@ int					trace_ray(
 		__constant t_light *lights,
 		float3 ray_dir,
 		float ray_min,
-		float ray_max)
+		float ray_max,
+		int depth)
 {
-	float		closest_intersect;
 	t_color		result_color;
+
+	float		closest_intersect;
 	int			closest_obj_index = NOT_SET;
 
 	closest_intersect = closest_intersection(scene, objects, origin, ray_dir, ray_min, ray_max, &closest_obj_index, &result_color);
@@ -197,9 +204,34 @@ int					trace_ray(
 
 	float3 point = origin + (ray_dir * closest_intersect);
 	float3 normal = compute_normal(point, &objects[closest_obj_index]);
-	return change_color_intensity(
-			result_color,
+
+	result_color.value = change_color_intensity(result_color,
 			compute_lighting(scene, lights, objects, point, normal, ray_dir, closest_intersect, closest_obj_index));
+
+	float		reflective = 0.5f;
+	t_color		reflected_color;
+
+	for (int i = 0; i < 2; i++)
+	{
+		ray_dir = reflect(ray_dir, normal);
+		origin = point;
+		closest_obj_index = NOT_SET;
+		closest_intersect = closest_intersection(scene, objects, origin, ray_dir, 0.1f, ray_max, &closest_obj_index, &reflected_color);
+		if (closest_obj_index == NOT_SET)
+			return result_color.value;
+
+		point = origin + (ray_dir * closest_intersect);
+		normal = compute_normal(point, &objects[closest_obj_index]);
+
+		reflected_color.value = change_color_intensity(reflected_color,
+				compute_lighting(scene, lights, objects, point, normal, ray_dir, closest_intersect, closest_obj_index));
+
+		result_color.rgb.r = mix((float)result_color.rgb.r, (float)reflected_color.rgb.r, reflective);
+		result_color.rgb.g = mix((float)result_color.rgb.g, (float)reflected_color.rgb.g, reflective);
+		result_color.rgb.b = mix((float)result_color.rgb.b, (float)reflected_color.rgb.b, reflective);
+	}
+
+	return result_color.value;
 }
 
 __kernel void		raytracer(
@@ -221,6 +253,6 @@ __kernel void		raytracer(
 
 	float3 ray_dir = normalize(canvas_to_viewport(camera, (float3)(x, y, 0)));
 	rotate_point(&ray_dir, camera->rotation);
-	result_color.value = trace_ray(scene, camera->pos, objects, lights, ray_dir, camera->viewport_distance, INFINITY);
+	result_color.value = trace_ray(scene, camera->pos, objects, lights, ray_dir, camera->viewport_distance, INFINITY, 1);
 	img_data[g_id] = result_color.value;
 }
